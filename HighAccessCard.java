@@ -1,4 +1,4 @@
-public class HighAccessCard extends AccessCard {
+class HighAccessCard extends AccessCard {
     public HighAccessCard(String cardID) {
         super(cardID, "High");
     }

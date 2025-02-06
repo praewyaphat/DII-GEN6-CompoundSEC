@@ -1,10 +1,12 @@
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CardManager {
     private List<AccessCard> cards = new ArrayList<>();
     private final String FILE_NAME = "cards.txt";
+    private final String AUDIT_FILE = "audit_log.txt";
 
     public void addCard(AccessCard card) {
         if (card.getCardID().equals("CARD004")) {
@@ -14,14 +16,17 @@ public class CardManager {
         cards.add(card);
         System.out.println("Added: " + card.getCardID() + " | Level: " + card.getAccessLevel());
         saveToFile();
+        logUsage("SystemUser", "Added Card", card.getCardID(), card.getAccessLevel());
     }
 
     public void modifyCard(String cardID, String newLevel) {
         for (AccessCard card : cards) {
             if (card.getCardID().equals(cardID)) {
+                String oldLevel = card.getAccessLevel();
                 card.setAccessLevel(newLevel);
                 System.out.println("Modified: " + cardID + " -> New Level: " + newLevel);
                 saveToFile();
+                logUsage("SystemUser", "Modified Card", cardID, oldLevel + " -> " + newLevel);
                 return;
             }
         }
@@ -29,7 +34,10 @@ public class CardManager {
     }
 
     public void revokeCard(String cardID) {
-        cards.removeIf(card -> card.getCardID().equals(cardID));
+        cards.removeIf(card -> {
+            logUsage("SystemUser", "Revoked Card", card.getCardID(), card.getAccessLevel());
+            return card.getCardID().equals(cardID);
+        });
         System.out.println("Revoked: " + cardID);
         saveToFile();
     }
@@ -80,6 +88,19 @@ public class CardManager {
             System.out.println("Loaded data from file.");
         } catch (IOException e) {
             System.out.println("No previous data found. Starting fresh.");
+        }
+    }
+
+    private void logUsage(String userID, String action, String cardID, String accessLevel) {
+        String logEntry = "[" + LocalDateTime.now() + "] User: " + userID +
+                " | Action: " + action + " | Card: " + cardID + " | Level: " + accessLevel;
+
+        System.out.println(logEntry);
+
+        try (FileWriter writer = new FileWriter(AUDIT_FILE, true)) {
+            writer.write(logEntry + "\n");
+        } catch (IOException e) {
+            System.out.println("Error saving audit log: " + e.getMessage());
         }
     }
 }

@@ -1,4 +1,8 @@
-public abstract class AccessCard {
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+
+abstract class AccessCard  {
     protected String cardID;
     protected String accessLevel;
 
@@ -19,7 +23,21 @@ public abstract class AccessCard {
         this.accessLevel = newLevel;
     }
 
-    public abstract boolean grantAccess(String requiredLevel);
+    public void logUsage(String userID, String location) {
+        String logEntry = "[" + LocalDateTime.now() + "] User: " + userID +
+                " | Card: " + cardID + " | Level: " + accessLevel +
+                " | Location: " + location;
 
+        System.out.println(logEntry); // แสดงข้อมูลบนหน้าจอ
+
+        // บันทึกลงไฟล์
+        try (FileWriter writer = new FileWriter("audit_log.txt", true)) {
+            writer.write(logEntry + "\n");
+        } catch (IOException e) {
+            System.out.println("Error saving audit log: " + e.getMessage());
+        }
+    }
+
+    public abstract boolean grantAccess(String requiredLevel);
     public abstract void showCardInfo();
 }
