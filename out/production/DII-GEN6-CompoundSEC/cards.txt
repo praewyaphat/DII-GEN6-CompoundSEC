@@ -2,3 +2,7 @@ A100,Low
 A333,Low
 A111,Low
 A111,Low
+A111,Low
+A111,Low
+a333,Medium
+A2222,Low

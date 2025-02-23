@@ -7,10 +7,9 @@ public class CardManager {
     private List<AccessCard> cards = new ArrayList<>();
     private final String FILE_NAME = "cards.txt";
     private final String AUDIT_FILE = "audit_log.txt";
-    private List<AccessCard> cardList;
 
     public CardManager() {
-        cardList = new ArrayList<>();
+        loadFromFile();
     }
 
     public void addCard(AccessCard card) {
@@ -45,13 +44,6 @@ public class CardManager {
         });
         System.out.println("Revoked: " + cardID);
         saveToFile();
-    }
-
-    public void showAllCards() {
-        System.out.println("\n--- All Cards ---");
-        for (AccessCard card : cards) {
-            card.showCardInfo();
-        }
     }
 
     public void saveToFile() {
@@ -108,16 +100,17 @@ public class CardManager {
             System.out.println("Error saving audit log: " + e.getMessage());
         }
     }
+
     public List<AccessCard> getCardList() {
-        return cardList;
+        return cards;
     }
 
     public String getAllCards() {
         StringBuilder result = new StringBuilder();
-        for (AccessCard card : cardList) {
+        result.append("Registered Cards:\n");
+        for (AccessCard card : cards) {
             result.append(card.toString()).append("\n");
         }
         return result.toString();
     }
-
 }

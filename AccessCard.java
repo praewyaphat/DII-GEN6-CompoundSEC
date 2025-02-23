@@ -2,7 +2,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-abstract class AccessCard  {
+abstract class AccessCard {
     protected String cardID;
     protected String accessLevel;
 
@@ -23,14 +23,17 @@ abstract class AccessCard  {
         this.accessLevel = newLevel;
     }
 
+    public String toString() {
+        return cardID + " - " + accessLevel;
+    }
+
     public void logUsage(String userID, String location) {
         String logEntry = "[" + LocalDateTime.now() + "] User: " + userID +
                 " | Card: " + cardID + " | Level: " + accessLevel +
                 " | Location: " + location;
 
-        System.out.println(logEntry); // แสดงข้อมูลบนหน้าจอ
+        System.out.println(logEntry);
 
-        // บันทึกลงไฟล์
         try (FileWriter writer = new FileWriter("audit_log.txt", true)) {
             writer.write(logEntry + "\n");
         } catch (IOException e) {
@@ -38,6 +41,14 @@ abstract class AccessCard  {
         }
     }
 
-    public abstract boolean grantAccess(String requiredLevel);
-    public abstract void showCardInfo();
+    public boolean grantAccess(String requiredLevel) {
+        if (requiredLevel.equalsIgnoreCase(accessLevel)) {
+            return true;
+        }
+        return false;
+    }
+
+    public void showCardInfo() {
+        System.out.println("Card ID: " + cardID + " | Access Level: " + accessLevel);
+    }
 }
