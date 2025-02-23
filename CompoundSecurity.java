@@ -1,71 +1,120 @@
-import java.util.Scanner;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class CompoundSecurity {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        CardManager manager = new CardManager();
+public class CompoundSecurity extends JFrame {
+    private CardManager manager;
+    private JTextField cardIDField;
+    private JComboBox<String> levelBox;
+    private JTextArea displayArea;
+
+    public CompoundSecurity() {
+        // สร้าง Object สำหรับจัดการการ์ด
+        manager = new CardManager();
         manager.loadFromFile();
 
-        while (true) {
-            System.out.println("\n=== Access Card Management System ===");
-            System.out.println("1. Add Card");
-            System.out.println("2. Modify Card");
-            System.out.println("3. Revoke Card");
-            System.out.println("4. Show All Cards");
-            System.out.println("5. Exit");
-            System.out.print("Choose an option: ");
+        // ตั้งค่าหน้าต่างหลัก
+        setTitle("Access Card Management System");
+        setSize(500, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
 
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+        // สร้างช่องกรอก Card ID
+        JLabel cardLabel = new JLabel("Card ID:");
+        cardIDField = new JTextField(10);
 
-            switch (choice) {
-                case 1: //add
-                    System.out.print("Enter Card ID: ");
-                    String cardID = scanner.nextLine();
-                    System.out.print("Enter Access Level (Low, Medium, High): ");
-                    String level = scanner.nextLine();
+        // สร้างช่องเลือก Access Level
+        JLabel levelLabel = new JLabel("Access Level:");
+        String[] levels = {"Low", "Medium", "High"};
+        levelBox = new JComboBox<>(levels);
 
-                    AccessCard newCard = null;
-                    if (level.equalsIgnoreCase("Low")) {
-                        newCard = new LowAccessCard(cardID);
-                    } else if (level.equalsIgnoreCase("Medium")) {
-                        newCard = new MediumAccessCard(cardID);
-                    } else if (level.equalsIgnoreCase("High")) {
-                        newCard = new HighAccessCard(cardID);
-                    } else {
-                        System.out.println("Invalid access level!");
-                        break;
-                    }
-                    manager.addCard(newCard);
-                    break;
+        // สร้างปุ่มต่าง ๆ
+        JButton addButton = new JButton("Add Card");
+        JButton modifyButton = new JButton("Modify Card");
+        JButton revokeButton = new JButton("Revoke Card");
+        JButton showButton = new JButton("Show All Cards");
 
-                case 2: //modify
-                    System.out.print("Enter Card ID to Modify: ");
-                    String modifyID = scanner.nextLine();
-                    System.out.print("Enter New Access Level (Low, Medium, High): ");
-                    String newLevel = scanner.nextLine();
-                    manager.modifyCard(modifyID, newLevel);
-                    break;
+        // สร้างพื้นที่แสดงผล
+        displayArea = new JTextArea(10, 30);
+        displayArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(displayArea);
 
-                case 3: //revoke
-                    System.out.print("Enter Card ID to Revoke: ");
-                    String revokeID = scanner.nextLine();
-                    manager.revokeCard(revokeID);
-                    break;
+        // เพิ่ม Action ให้ปุ่ม Add Card
+        addButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String cardID = cardIDField.getText();
+                String level = (String) levelBox.getSelectedItem();
 
-                case 4: //show
-                    manager.showAllCards();
-                    break;
+                AccessCard newCard = null;
+                if (level.equalsIgnoreCase("Low")) {
+                    newCard = new LowAccessCard(cardID);
+                } else if (level.equalsIgnoreCase("Medium")) {
+                    newCard = new MediumAccessCard(cardID);
+                } else if (level.equalsIgnoreCase("High")) {
+                    newCard = new HighAccessCard(cardID);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Invalid access level!");
+                    return;
+                }
 
-                case 5: //exit
-                    System.out.println("Exiting system...");
-                    scanner.close();
-                    System.exit(0);
-                    break;
-
-                default:
-                    System.out.println("Invalid choice! Please select a valid option.");
+                manager.addCard(newCard);
+                JOptionPane.showMessageDialog(null, "Card Added Successfully!");
+                cardIDField.setText("");
             }
+        });
+
+        // เพิ่ม Action ให้ปุ่ม Modify Card
+        modifyButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String cardID = cardIDField.getText();
+                String newLevel = (String) levelBox.getSelectedItem();
+                manager.modifyCard(cardID, newLevel);
+                JOptionPane.showMessageDialog(null, "Card Modified Successfully!");
+            }
+        });
+
+        // เพิ่ม Action ให้ปุ่ม Revoke Card
+        revokeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String cardID = cardIDField.getText();
+                manager.revokeCard(cardID);
+                JOptionPane.showMessageDialog(null, "Card Revoked Successfully!");
+            }
+        });
+
+        // เพิ่ม Action ให้ปุ่ม Show All Cards
+        showButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                displayArea.setText("");
+                displayArea.append(manager.getAllCards());
+            }
+        });
+
+        // เพิ่มทุกอย่างลงในหน้าต่าง
+        add(cardLabel);
+        add(cardIDField);
+        add(levelLabel);
+        add(levelBox);
+        add(addButton);
+        add(modifyButton);
+        add(revokeButton);
+        add(showButton);
+        add(scrollPane);
+
+        setVisible(true);
+    }
+    
+    public String getAllCards() {
+        StringBuilder result = new StringBuilder();
+        for (AccessCard card : manager.getCardList()) {
+            result.append(card.toString()).append("\n");
         }
+        return result.toString();
+    }
+
+
+    public static void main(String[] args) {
+        new CompoundSecurity();
     }
 }

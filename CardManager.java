@@ -7,6 +7,11 @@ public class CardManager {
     private List<AccessCard> cards = new ArrayList<>();
     private final String FILE_NAME = "cards.txt";
     private final String AUDIT_FILE = "audit_log.txt";
+    private List<AccessCard> cardList;
+
+    public CardManager() {
+        cardList = new ArrayList<>();
+    }
 
     public void addCard(AccessCard card) {
         if (card.getCardID().equals("CARD004")) {
@@ -103,4 +108,16 @@ public class CardManager {
             System.out.println("Error saving audit log: " + e.getMessage());
         }
     }
+    public List<AccessCard> getCardList() {
+        return cardList;
+    }
+
+    public String getAllCards() {
+        StringBuilder result = new StringBuilder();
+        for (AccessCard card : cardList) {
+            result.append(card.toString()).append("\n");
+        }
+        return result.toString();
+    }
+
 }
