@@ -8,14 +8,48 @@ public class CompoundSecurity extends JFrame {
     private JTextField cardIDField;
     private JComboBox<String> levelBox;
     private JTextArea displayArea;
+    private JButton adminButton;
+    private JButton userButton;
 
+    private final String ADMIN_PASSWORD = "admin11";
     public CompoundSecurity() {
         manager = new CardManager();
         manager.loadFromFile();
 
         setTitle("Access Card Management System");
-        setSize(500, 400);
+        setSize(600, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+
+        adminButton = new JButton("Admin");
+        userButton = new JButton("User");
+
+        adminButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String password = JOptionPane.showInputDialog("Enter Admin Password:");
+                if (password != null && password.equals(ADMIN_PASSWORD)) {
+                    showAdminUI();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Incorrect Password!");
+                }
+            }
+        });
+
+        userButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showUserUI();
+            }
+        });
+
+        add(new JLabel("Select Role:"));
+        add(adminButton);
+        add(userButton);
+
+        setVisible(true);
+    }
+
+    private void showAdminUI() {
+        getContentPane().removeAll();
         setLayout(new FlowLayout());
 
         JLabel cardLabel = new JLabel("Card ID:");
@@ -38,7 +72,6 @@ public class CompoundSecurity extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String cardID = cardIDField.getText();
                 String level = (String) levelBox.getSelectedItem();
-
                 AccessCard newCard = null;
                 if (level.equalsIgnoreCase("Low")) {
                     newCard = new LowAccessCard(cardID);
@@ -46,14 +79,16 @@ public class CompoundSecurity extends JFrame {
                     newCard = new MediumAccessCard(cardID);
                 } else if (level.equalsIgnoreCase("High")) {
                     newCard = new HighAccessCard(cardID);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Invalid access level!");
-                    return;
                 }
-
                 manager.addCard(newCard);
                 JOptionPane.showMessageDialog(null, "Card Added Successfully!");
                 cardIDField.setText("");
+            }
+        });
+
+        showButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                displayArea.setText(manager.getAllCards());
             }
         });
 
@@ -62,7 +97,6 @@ public class CompoundSecurity extends JFrame {
                 String cardID = cardIDField.getText();
                 String newLevel = (String) levelBox.getSelectedItem();
                 manager.modifyCard(cardID, newLevel);
-                JOptionPane.showMessageDialog(null, "Card Modified Successfully!");
             }
         });
 
@@ -70,13 +104,7 @@ public class CompoundSecurity extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String cardID = cardIDField.getText();
                 manager.revokeCard(cardID);
-                JOptionPane.showMessageDialog(null, "Card Revoked Successfully!");
-            }
-        });
-
-        showButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                displayArea.setText(manager.getAllCards());
+                cardIDField.setText("");
             }
         });
 
@@ -90,17 +118,45 @@ public class CompoundSecurity extends JFrame {
         add(showButton);
         add(scrollPane);
 
-        setVisible(true);
+        revalidate();
+        repaint();
     }
 
-    public String getAllCards() {
-        StringBuilder result = new StringBuilder();
-        for (AccessCard card : manager.getCardList()) {
-            result.append(card.toString()).append("\n");
-        }
-        return result.toString();
-    }
+    private void showUserUI() {
+        getContentPane().removeAll();
+        setLayout(new FlowLayout());
 
+        JLabel cardLabel = new JLabel("Card ID:");
+        cardIDField = new JTextField(10);
+
+        JButton useCardButton = new JButton("Use Card");
+
+        displayArea = new JTextArea(10, 30);
+        displayArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(displayArea);
+
+        useCardButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String cardID = cardIDField.getText();
+                AccessCard card = manager.getCard(cardID);
+                if (card != null) {
+                    boolean accessGranted = card.grantAccess("Low");
+                    String message = accessGranted ? "Access Granted" : "Access Denied";
+                    displayArea.setText(message);
+                } else {
+                    displayArea.setText("Card not found.");
+                }
+            }
+        });
+
+        add(cardLabel);
+        add(cardIDField);
+        add(useCardButton);
+        add(scrollPane);
+
+        revalidate();
+        repaint();
+    }
 
     public static void main(String[] args) {
         new CompoundSecurity();

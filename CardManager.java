@@ -113,4 +113,14 @@ public class CardManager {
         }
         return result.toString();
     }
+
+    public AccessCard getCard(String cardID) {
+        for (AccessCard card : cards) {
+            if (card.getCardID().equals(cardID)) {
+                return card;
+            }
+        }
+        return null;
+    }
+
 }
