@@ -13,6 +13,54 @@ public class CardManager {
         loadFromFile();
     }
 
+   public boolean grantAccess(String requiredLevel, String cardID, String customerName) {
+        AccessCard card = getCard(cardID); // หาบัตรจาก ID
+        if (card != null) {
+            if (card.isUsed()) {
+                logAction("Access Denied | Card " + cardID + " already used.");
+                return false;
+            }
+
+            if (card.grantAccess(requiredLevel)) {
+                card.setUsed(true);
+                logAction("Access Granted | Card " + cardID + " used by customer: " + customerName);
+                return true;
+            } else {
+                logAction("Access Denied | Card " + cardID + " insufficient access level.");
+                return false;
+            }
+        }
+        logAction("Access Denied | Card " + cardID + " not found.");
+        return false;
+    }
+
+    private void logAction(String action) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(AUDIT_FILE, true))) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String timestamp = LocalDateTime.now().format(formatter);
+            writer.write(timestamp + " | " + action + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public AccessCard getCard(String cardID) {
+        for (AccessCard card : cards) {
+            if (card.getCardID().equals(cardID)) {
+                return card;
+            }
+        }
+        return null;
+    }
+
+    public String[] getCardIDs() {
+        List<String> cardIDs = new ArrayList<>();
+        for (AccessCard card : cards) {
+            cardIDs.add(card.getCardID()); // สมมุติว่า AccessCard มีเมธอด getCardID()
+        }
+        return cardIDs.toArray(new String[0]); // แปลงเป็นอาเรย์ของ String
+    }
+
     public void addCard(AccessCard card) {
         if (card.getCardID().equals("CARD004")) {
             System.out.println("Skipping Card 4");
@@ -123,12 +171,19 @@ public class CardManager {
         return result.toString();
     }
 
-    public AccessCard getCard(String cardID) {
+    public String[] getLowAccessCardIDs() {
+        // ใช้ cards แทน cardList
+        if (cards == null || cards.isEmpty()) {
+            return new String[0]; // ถ้า cards ไม่มีข้อมูล จะคืนค่าอาร์เรย์ว่าง
+        }
+
+        ArrayList<String> lowAccessCardIDs = new ArrayList<>();
         for (AccessCard card : cards) {
-            if (card.getCardID().equals(cardID)) {
-                return card;
+            if (card.getAccessLevel().equalsIgnoreCase("Low")) {
+                lowAccessCardIDs.add(card.getCardID());
             }
         }
-        return null;
+        return lowAccessCardIDs.toArray(new String[0]);
     }
+
 }

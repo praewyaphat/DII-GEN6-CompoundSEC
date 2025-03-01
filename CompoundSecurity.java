@@ -239,40 +239,71 @@ public class CompoundSecurity extends JFrame {
         JLabel cardLabel = new JLabel("Card ID:");
         cardIDField = new JTextField(10);
 
-        JButton useCardButton = new JButton("Use Card");
-        JButton backButton = new JButton("Back"); // ปุ่มย้อนกลับ
+        JLabel usernameLabel = new JLabel("Username:");
+        JTextField usernameField = new JTextField(10);
 
-        // Set preferred size for buttons
+        JComboBox<String> cardComboBox = new JComboBox<>(manager.getCardIDs()); // ต้องมี method getCardIDs() ใน CardManager
+
+        JLabel floorLabel = new JLabel("Floor:");
+        String[] floors = {"Floor 1", "Floor 2", "Floor 3"};
+        JComboBox<String> floorComboBox = new JComboBox<>(floors);
+
+        JButton useCardButton = new JButton("Use Card");
+        JButton backButton = new JButton("Back");
+
         Dimension buttonSize = new Dimension(170, 50);
         useCardButton.setPreferredSize(buttonSize);
         backButton.setPreferredSize(buttonSize);
 
-        displayArea = new JTextArea(10, 30);
+        displayArea = new JTextArea(30, 55);
         displayArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(displayArea);
 
         useCardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String cardID = cardIDField.getText().trim();
-                if (cardID.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Please enter a Card ID!", "Error", JOptionPane.ERROR_MESSAGE);
+                String username = usernameField.getText().trim();
+                String cardID = (String) cardComboBox.getSelectedItem();
+                String selectedFloor = (String) floorComboBox.getSelectedItem();
+
+                if (username.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Please enter a Username!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if (cardID == null) {
+                    JOptionPane.showMessageDialog(null, "Please select a Card!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 AccessCard card = manager.getCard(cardID);
-                boolean accessGranted = card != null && card.grantAccess("Low");
-                displayArea.setText(accessGranted ? "Access Granted" : "Access Denied");
+                if (card != null) {
+                    String cardLevel = card.getLevel();  // ตรวจสอบระดับของการ์ด
+
+                    // ถ้าการ์ดมีระดับ Medium หรือ High จะไม่สามารถเข้าถึงได้
+                    if (cardLevel.equals("Medium") || cardLevel.equals("High")) {
+                        displayArea.setText("Access Denied: Your card does not have permission to access any floors.");
+                    } else if (cardLevel.equals("Low")) {
+                        // ถ้าการ์ดมีระดับ Low สามารถเข้าถึงได้ทุกชั้น
+                        displayArea.setText("Access to " + selectedFloor + ": Granted");
+                    }
+                } else {
+                    displayArea.setText("Card not found.");
+                }
             }
         });
 
-        backButton.addActionListener(new ActionListener() { // ปุ่มย้อนกลับ
+
+        backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showRoleSelectionUI();
             }
         });
 
+        add(usernameLabel);
+        add(usernameField);
         add(cardLabel);
-        add(cardIDField);
+        add(cardComboBox);
+        add(floorLabel);
+        add(floorComboBox);
         add(useCardButton);
         add(backButton);
         add(scrollPane);
@@ -330,7 +361,6 @@ public class CompoundSecurity extends JFrame {
         revalidate();
         repaint();
     }
-
 
     public static void main(String[] args) {
         new CompoundSecurity();

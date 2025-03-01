@@ -1,14 +1,24 @@
 public class AccessCard {
     protected String cardID;
     protected String accessLevel;
+    private boolean used; // สถานะการใช้บัตร
 
     public AccessCard(String cardID, String accessLevel) {
         this.cardID = cardID;
         this.accessLevel = accessLevel;
+        this.used = false; // เริ่มต้นการ์ดยังไม่ถูกใช้
     }
 
     public String getCardID() {
         return cardID;
+    }
+
+    public boolean isUsed() {
+        return used; // คืนค่าสถานะว่าใช้บัตรแล้วหรือยัง
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used; // กำหนดสถานะการใช้บัตร
     }
 
     public String getAccessLevel() {
@@ -19,8 +29,22 @@ public class AccessCard {
         this.accessLevel = newLevel;
     }
 
+    public String getLevel() {
+        return this.accessLevel;  // คืนค่าระดับของการ์ด
+    }
+
+
     public boolean grantAccess(String requiredLevel) {
-        return requiredLevel.equalsIgnoreCase(accessLevel);
+        if (used) {
+            return false; // ถ้าบัตรถูกใช้ไปแล้ว ไม่อนุญาตให้ใช้
+        }
+
+        if (requiredLevel.equalsIgnoreCase(accessLevel)) {
+            used = true; // ตั้งค่าสถานะว่าบัตรถูกใช้แล้ว
+            return true; // อนุญาตการเข้าถึง
+        }
+
+        return false;
     }
 }
 
