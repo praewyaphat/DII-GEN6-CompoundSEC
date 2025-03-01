@@ -1,8 +1,4 @@
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDateTime;
-
-abstract class AccessCard {
+public class AccessCard {
     protected String cardID;
     protected String accessLevel;
 
@@ -23,32 +19,40 @@ abstract class AccessCard {
         this.accessLevel = newLevel;
     }
 
-    public String toString() {
-        return cardID + " - " + accessLevel;
-    }
-
-    public void logUsage(String userID, String location) {
-        String logEntry = "[" + LocalDateTime.now() + "] User: " + userID +
-                " | Card: " + cardID + " | Level: " + accessLevel +
-                " | Location: " + location;
-
-        System.out.println(logEntry);
-
-        try (FileWriter writer = new FileWriter("audit_log.txt", true)) {
-            writer.write(logEntry + "\n");
-        } catch (IOException e) {
-            System.out.println("Error saving audit log: " + e.getMessage());
-        }
-    }
-
     public boolean grantAccess(String requiredLevel) {
-        if (requiredLevel.equalsIgnoreCase(accessLevel)) {
-            return true;
-        }
-        return false;
+        return requiredLevel.equalsIgnoreCase(accessLevel);
+    }
+}
+
+class AdminCard extends AccessCard {
+    public AdminCard(String cardID) {
+        super(cardID, "High"); // Admins have the highest level of access by default
     }
 
-    public void showCardInfo() {
-        System.out.println("Card ID: " + cardID + " | Access Level: " + accessLevel);
+    @Override
+    public boolean grantAccess(String requiredLevel) {
+        return true; // Admin can access any level
+    }
+}
+
+class GuestCard extends AccessCard {
+    public GuestCard(String cardID) {
+        super(cardID, "Low"); // Guest has the lowest level of access by default
+    }
+
+    @Override
+    public boolean grantAccess(String requiredLevel) {
+        return requiredLevel.equalsIgnoreCase("Low"); // Guest can only access Low level
+    }
+}
+
+class StaffCard extends AccessCard {
+    public StaffCard(String cardID) {
+        super(cardID, "Medium"); // Staff have medium level of access by default
+    }
+
+    @Override
+    public boolean grantAccess(String requiredLevel) {
+        return requiredLevel.equalsIgnoreCase("Low") || requiredLevel.equalsIgnoreCase("Medium");
     }
 }

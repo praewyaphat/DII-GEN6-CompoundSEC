@@ -1,5 +1,6 @@
 import java.io.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,16 +71,22 @@ public class CardManager {
                     continue;
                 }
 
+                // ใช้ Polymorphism เพื่อสร้างบัตรที่แตกต่างกันตาม level
+                AccessCard card = null;
                 switch (level) {
                     case "Low":
-                        cards.add(new LowAccessCard(cardID));
+                        card = new GuestCard(cardID);  // GuestCard สำหรับระดับ Low
                         break;
                     case "Medium":
-                        cards.add(new MediumAccessCard(cardID));
+                        card = new StaffCard(cardID);  // StaffCard สำหรับระดับ Medium
                         break;
                     case "High":
-                        cards.add(new HighAccessCard(cardID));
+                        card = new AdminCard(cardID);  // AdminCard สำหรับระดับ High
                         break;
+                }
+
+                if (card != null) {
+                    cards.add(card);
                 }
             }
             System.out.println("Loaded data from file.");
@@ -89,8 +96,10 @@ public class CardManager {
     }
 
     private void logUsage(String userID, String action, String cardID, String accessLevel) {
-        String logEntry = "[" + LocalDateTime.now() + "] User: " + userID +
-                " | Action: " + action + " | Card: " + cardID + " | Level: " + accessLevel;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String timestamp = LocalDateTime.now().format(formatter);
+
+        String logEntry = timestamp + " | User: " + userID + " | Action: " + action + " | Card: " + cardID + " | Level: " + accessLevel;
 
         System.out.println(logEntry);
 
@@ -122,5 +131,4 @@ public class CardManager {
         }
         return null;
     }
-
 }

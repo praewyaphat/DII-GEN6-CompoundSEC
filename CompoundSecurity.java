@@ -20,7 +20,8 @@ public class CompoundSecurity extends JFrame {
         manager.loadFromFile();
 
         setTitle("Access Card Management System");
-        setSize(600, 500);
+        setSize(1000, 600);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridBagLayout());
 
@@ -31,24 +32,28 @@ public class CompoundSecurity extends JFrame {
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
 
-        JLabel titleLabel = new JLabel("SUNSET PARADISE");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 35));
+        JLabel titleLabel = new JLabel("SUNSET PARADISE \uD83C\uDF05");
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 36));
+        titleLabel.setForeground(new Color(0x4E342E));
         add(titleLabel, gbc);
 
         adminButton = new JButton("Admin");
         userButton = new JButton("Customer");
 
-        adminButton.setPreferredSize(new Dimension(120, 40));
-        userButton.setPreferredSize(new Dimension(120, 40));
+        // Set preferred size for all buttons
+        Dimension buttonSize = new Dimension(170, 50);
+
+        adminButton.setPreferredSize(buttonSize);
+        userButton.setPreferredSize(buttonSize);
+
+        adminButton.setBackground(Color.decode("#8E715B"));
+        adminButton.setForeground(Color.WHITE);
+        userButton.setBackground(Color.decode("#8E715B"));
+        userButton.setForeground(Color.WHITE);
 
         adminButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String password = JOptionPane.showInputDialog("Enter Admin Password:");
-                if (password != null && password.equals(ADMIN_PASSWORD)) {
-                    showAdminUI();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Incorrect Password!");
-                }
+                showAdminPasswordPrompt();
             }
         });
 
@@ -68,6 +73,28 @@ public class CompoundSecurity extends JFrame {
         setVisible(true);
     }
 
+    private void showAdminPasswordPrompt() {
+        JPasswordField passwordField = new JPasswordField(10);
+        passwordField.setEchoChar('●');
+
+        int option = JOptionPane.showConfirmDialog(
+                null,
+                passwordField,
+                "Enter Admin Password",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (option == JOptionPane.OK_OPTION) {
+            String password = new String(passwordField.getPassword());
+            if (password.equals(ADMIN_PASSWORD)) {
+                showAdminUI();
+            } else {
+                JOptionPane.showMessageDialog(null, "Incorrect Password!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
     private void showAdminUI() {
         getContentPane().removeAll();
         setLayout(new FlowLayout());
@@ -82,10 +109,19 @@ public class CompoundSecurity extends JFrame {
         JButton addButton = new JButton("Add Card");
         JButton modifyButton = new JButton("Modify Card");
         JButton revokeButton = new JButton("Revoke Card");
-        JButton showButton = new JButton("Show All Cards");
+        JButton showButton = new JButton("View Cards");
         JButton viewLogButton = new JButton("View Audit Log");
 
-        displayArea = new JTextArea(10, 30);
+        // Set preferred size for all buttons
+        Dimension buttonSize = new Dimension(170, 50);
+
+        addButton.setPreferredSize(buttonSize);
+        modifyButton.setPreferredSize(buttonSize);
+        revokeButton.setPreferredSize(buttonSize);
+        showButton.setPreferredSize(buttonSize);
+        viewLogButton.setPreferredSize(buttonSize);
+
+        displayArea = new JTextArea(30, 55);
         displayArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(displayArea);
 
@@ -95,11 +131,11 @@ public class CompoundSecurity extends JFrame {
                 String level = (String) levelBox.getSelectedItem();
                 AccessCard newCard = null;
                 if (level.equalsIgnoreCase("Low")) {
-                    newCard = new LowAccessCard(cardID);
+                    newCard = new GuestCard(cardID);  // Use GuestCard for Low level
                 } else if (level.equalsIgnoreCase("Medium")) {
-                    newCard = new MediumAccessCard(cardID);
+                    newCard = new StaffCard(cardID);  // Use StaffCard for Medium level
                 } else if (level.equalsIgnoreCase("High")) {
-                    newCard = new HighAccessCard(cardID);
+                    newCard = new AdminCard(cardID);  // Use AdminCard for High level
                 }
                 manager.addCard(newCard);
                 JOptionPane.showMessageDialog(null, "Card Added Successfully!");
@@ -143,7 +179,7 @@ public class CompoundSecurity extends JFrame {
         add(modifyButton);
         add(revokeButton);
         add(showButton);
-        add(viewLogButton);  // Added View Log Button
+        add(viewLogButton);
         add(scrollPane);
 
         revalidate();
@@ -172,6 +208,10 @@ public class CompoundSecurity extends JFrame {
 
         JButton useCardButton = new JButton("Use Card");
 
+        // Set preferred size for use card button
+        Dimension buttonSize = new Dimension(170, 50);
+        useCardButton.setPreferredSize(buttonSize);
+
         displayArea = new JTextArea(10, 30);
         displayArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(displayArea);
@@ -180,13 +220,8 @@ public class CompoundSecurity extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String cardID = cardIDField.getText();
                 AccessCard card = manager.getCard(cardID);
-                if (card != null) {
-                    boolean accessGranted = card.grantAccess("Low"); // Assume "Low" level here
-                    String message = accessGranted ? "Access Granted" : "Access Denied";
-                    displayArea.setText(message);
-                } else {
-                    displayArea.setText("Card not found.");
-                }
+                boolean accessGranted = card != null && card.grantAccess("Low");  // Assuming "Low" for user access level
+                displayArea.setText(accessGranted ? "Access Granted" : "Access Denied");
             }
         });
 
