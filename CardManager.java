@@ -13,36 +13,39 @@ public class CardManager {
         loadFromFile();
     }
 
-   public boolean grantAccess(String requiredLevel, String cardID, String customerName) {
-        AccessCard card = getCard(cardID); // หาบัตรจาก ID
-        if (card != null) {
-            if (card.isUsed()) {
-                logAction("Access Denied | Card " + cardID + " already used.");
-                return false;
-            }
+//   public boolean grantAccess(String requiredLevel, String cardID, String customerName) {
+//        AccessCard card = getCard(cardID); // หาบัตรจาก ID
+//        if (card != null) {
+//            if (card.isUsed()) {
+//                logAction("Access Denied | Card " + cardID + " already used.");
+//                return false;
+//            }
+//
+//            if (card.grantAccess(requiredLevel)) {
+//                card.setUsed(true);
+//                logAction("Access Granted | Card " + cardID + " used by customer: " + customerName);
+//                return true;
+//            } else {
+//                logAction("Access Denied | Card " + cardID + " insufficient access level.");
+//                return false;
+//            }
+//        }
+//        logAction("Access Denied | Card " + cardID + " not found.");
+//        return false;
+//    }
 
-            if (card.grantAccess(requiredLevel)) {
-                card.setUsed(true);
-                logAction("Access Granted | Card " + cardID + " used by customer: " + customerName);
-                return true;
-            } else {
-                logAction("Access Denied | Card " + cardID + " insufficient access level.");
-                return false;
-            }
-        }
-        logAction("Access Denied | Card " + cardID + " not found.");
-        return false;
-    }
-
-    private void logAction(String action) {
+    private void logAction(String username, String action, String cardID, String floor) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(AUDIT_FILE, true))) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String timestamp = LocalDateTime.now().format(formatter);
-            writer.write(timestamp + " | " + action + "\n");
+            String logEntry = String.format("%s | %s | %s | Card: %s | Floor: %s%n",
+                    timestamp, username, action, cardID, floor);
+            writer.write(logEntry);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     public AccessCard getCard(String cardID) {
         for (AccessCard card : cards) {

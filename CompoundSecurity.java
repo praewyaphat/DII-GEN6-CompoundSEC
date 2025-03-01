@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CompoundSecurity extends JFrame {
     private CardManager manager;
@@ -242,13 +244,13 @@ public class CompoundSecurity extends JFrame {
         JLabel usernameLabel = new JLabel("Username:");
         JTextField usernameField = new JTextField(10);
 
-        JComboBox<String> cardComboBox = new JComboBox<>(manager.getCardIDs()); // ต้องมี method getCardIDs() ใน CardManager
+        JComboBox<String> cardComboBox = new JComboBox<>(manager.getCardIDs());
 
         JLabel floorLabel = new JLabel("Floor:");
         String[] floors = {"Floor 1", "Floor 2", "Floor 3"};
         JComboBox<String> floorComboBox = new JComboBox<>(floors);
 
-        JButton useCardButton = new JButton("Use Card");
+        JButton useCardButton = new JButton("Ok");
         JButton backButton = new JButton("Back");
 
         Dimension buttonSize = new Dimension(170, 50);
@@ -258,6 +260,8 @@ public class CompoundSecurity extends JFrame {
         displayArea = new JTextArea(30, 55);
         displayArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(displayArea);
+
+        Set<String> selectedFloors = new HashSet<>();
 
         useCardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -274,16 +278,33 @@ public class CompoundSecurity extends JFrame {
                     return;
                 }
 
+                String cardFloorKey = cardID + "-" + selectedFloor;
+                if (selectedFloors.contains(cardFloorKey)) {
+                    JOptionPane.showMessageDialog(null, "This floor has already been selected for this card!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 AccessCard card = manager.getCard(cardID);
                 if (card != null) {
-                    String cardLevel = card.getLevel();  // ตรวจสอบระดับของการ์ด
+                    String cardLevel = card.getLevel();
 
-                    // ถ้าการ์ดมีระดับ Medium หรือ High จะไม่สามารถเข้าถึงได้
+                    String cardStatus = "Card ID: " + cardID + " --- Card Level: " + cardLevel + " --- Username: " + username;
+
                     if (cardLevel.equals("Medium") || cardLevel.equals("High")) {
-                        displayArea.setText("Access Denied: Your card does not have permission to access any floors.");
+                        displayArea.setText(cardStatus + "\nAccess Denied: Your card does not have permission to access any floors.");
+                        JOptionPane.showMessageDialog(null, "Access Denied: Your card does not have permission to access any floors.", "Access Denied", JOptionPane.ERROR_MESSAGE);
                     } else if (cardLevel.equals("Low")) {
-                        // ถ้าการ์ดมีระดับ Low สามารถเข้าถึงได้ทุกชั้น
-                        displayArea.setText("Access to " + selectedFloor + ": Granted");
+                        displayArea.setText(cardStatus + "\nAccess to " + selectedFloor + ": Granted");
+
+                        selectedFloors.add(cardFloorKey);
+
+                        StringBuilder history = new StringBuilder();
+                        for (String historyItem : selectedFloors) {
+                            history.append(historyItem.replace("-", " ")).append("\n");
+                        }
+                        displayArea.setText("Card Information:\n" + cardStatus + "\nAccess History:\n" + history.toString());
+
+                        JOptionPane.showMessageDialog(null, "Access to " + selectedFloor + ": Granted", "Access Granted", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } else {
                     displayArea.setText("Card not found.");
