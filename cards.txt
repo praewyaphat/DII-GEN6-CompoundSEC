@@ -5,3 +5,6 @@ A2222,Low
 A222,Low
 a,High
 CARD01,Medium
+B111,Low
+,Low
+,Low

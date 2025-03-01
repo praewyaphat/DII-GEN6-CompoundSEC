@@ -111,8 +111,8 @@ public class CompoundSecurity extends JFrame {
         JButton revokeButton = new JButton("Revoke Card");
         JButton showButton = new JButton("View Cards");
         JButton viewLogButton = new JButton("View Audit Log");
+        JButton backButton = new JButton("Back");
 
-        // Set preferred size for all buttons
         Dimension buttonSize = new Dimension(170, 50);
 
         addButton.setPreferredSize(buttonSize);
@@ -120,6 +120,7 @@ public class CompoundSecurity extends JFrame {
         revokeButton.setPreferredSize(buttonSize);
         showButton.setPreferredSize(buttonSize);
         viewLogButton.setPreferredSize(buttonSize);
+        backButton.setPreferredSize(buttonSize);
 
         displayArea = new JTextArea(30, 55);
         displayArea.setEditable(false);
@@ -127,18 +128,59 @@ public class CompoundSecurity extends JFrame {
 
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String cardID = cardIDField.getText();
+                String cardID = cardIDField.getText().trim();
+                if (cardID.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Please enter a Card ID!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 String userType = (String) userTypeBox.getSelectedItem();
                 AccessCard newCard = null;
+
                 if (userType.equalsIgnoreCase("Guest")) {
-                    newCard = new GuestCard(cardID);  // GuestCard has Low access
+                    newCard = new GuestCard(cardID);
                 } else if (userType.equalsIgnoreCase("Staff")) {
-                    newCard = new StaffCard(cardID);  // StaffCard has Medium access
+                    newCard = new StaffCard(cardID);
                 } else if (userType.equalsIgnoreCase("Admin")) {
-                    newCard = new AdminCard(cardID);  // AdminCard has High access
+                    newCard = new AdminCard(cardID);
                 }
+
                 manager.addCard(newCard);
                 JOptionPane.showMessageDialog(null, "Card Added Successfully!");
+                cardIDField.setText("");
+            }
+        });
+
+        modifyButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String cardID = cardIDField.getText().trim();
+                if (cardID.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Please enter a Card ID to modify!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String newUserType = (String) userTypeBox.getSelectedItem();
+                String newLevel = "Low";
+                if (newUserType.equalsIgnoreCase("Staff")) {
+                    newLevel = "Medium";
+                } else if (newUserType.equalsIgnoreCase("Admin")) {
+                    newLevel = "High";
+                }
+                manager.modifyCard(cardID, newLevel);
+                JOptionPane.showMessageDialog(null, "Card Modified Successfully!");
+            }
+        });
+
+        revokeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String cardID = cardIDField.getText().trim();
+                if (cardID.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Please enter a Card ID to revoke!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                manager.revokeCard(cardID);
+                JOptionPane.showMessageDialog(null, "Card Revoked Successfully!");
                 cardIDField.setText("");
             }
         });
@@ -149,37 +191,28 @@ public class CompoundSecurity extends JFrame {
             }
         });
 
-        modifyButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String cardID = cardIDField.getText();
-                String newLevel = (String) userTypeBox.getSelectedItem(); // Access level still remains as Low, Medium, High
-                manager.modifyCard(cardID, newLevel);
-            }
-        });
-
-        revokeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String cardID = cardIDField.getText();
-                manager.revokeCard(cardID);
-                cardIDField.setText("");
-            }
-        });
-
         viewLogButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 displayAuditLog();
             }
         });
 
+        backButton.addActionListener(new ActionListener() { // ปุ่มกลับไปหน้าเลือก Role
+            public void actionPerformed(ActionEvent e) {
+                showRoleSelectionUI();
+            }
+        });
+
         add(cardLabel);
         add(cardIDField);
         add(userTypeLabel);
-        add(userTypeBox); // Add the userTypeBox to the UI
+        add(userTypeBox);
         add(addButton);
         add(modifyButton);
         add(revokeButton);
         add(showButton);
         add(viewLogButton);
+        add(backButton);
         add(scrollPane);
 
         revalidate();
@@ -207,10 +240,12 @@ public class CompoundSecurity extends JFrame {
         cardIDField = new JTextField(10);
 
         JButton useCardButton = new JButton("Use Card");
+        JButton backButton = new JButton("Back"); // ปุ่มย้อนกลับ
 
-        // Set preferred size for use card button
+        // Set preferred size for buttons
         Dimension buttonSize = new Dimension(170, 50);
         useCardButton.setPreferredSize(buttonSize);
+        backButton.setPreferredSize(buttonSize);
 
         displayArea = new JTextArea(10, 30);
         displayArea.setEditable(false);
@@ -218,21 +253,84 @@ public class CompoundSecurity extends JFrame {
 
         useCardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String cardID = cardIDField.getText();
+                String cardID = cardIDField.getText().trim();
+                if (cardID.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Please enter a Card ID!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 AccessCard card = manager.getCard(cardID);
-                boolean accessGranted = card != null && card.grantAccess("Low");  // Assuming "Low" for user access level
+                boolean accessGranted = card != null && card.grantAccess("Low");
                 displayArea.setText(accessGranted ? "Access Granted" : "Access Denied");
+            }
+        });
+
+        backButton.addActionListener(new ActionListener() { // ปุ่มย้อนกลับ
+            public void actionPerformed(ActionEvent e) {
+                showRoleSelectionUI();
             }
         });
 
         add(cardLabel);
         add(cardIDField);
         add(useCardButton);
+        add(backButton);
         add(scrollPane);
 
         revalidate();
         repaint();
     }
+
+    private void showRoleSelectionUI() {
+        getContentPane().removeAll();
+        setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+
+        JLabel titleLabel = new JLabel("SUNSET PARADISE \uD83C\uDF05");
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 36));
+        titleLabel.setForeground(new Color(0x4E342E));
+        add(titleLabel, gbc);
+
+        adminButton = new JButton("Admin");
+        userButton = new JButton("Customer");
+
+        Dimension buttonSize = new Dimension(170, 50);
+        adminButton.setPreferredSize(buttonSize);
+        userButton.setPreferredSize(buttonSize);
+        adminButton.setBackground(Color.decode("#8E715B"));
+        adminButton.setForeground(Color.WHITE);
+        userButton.setBackground(Color.decode("#8E715B"));
+        userButton.setForeground(Color.WHITE);
+
+        adminButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showAdminPasswordPrompt();
+            }
+        });
+
+        userButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showUserUI();
+            }
+        });
+
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        add(adminButton, gbc);
+
+        gbc.gridx = 1;
+        add(userButton, gbc);
+
+        revalidate();
+        repaint();
+    }
+
 
     public static void main(String[] args) {
         new CompoundSecurity();

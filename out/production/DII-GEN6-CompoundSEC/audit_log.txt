@@ -78,3 +78,8 @@
 2025-03-01 17:22:01 | User: SystemUser | Action: Revoked Card | Card: A2222 | Level: Low
 2025-03-01 17:22:01 | User: SystemUser | Action: Revoked Card | Card: A222 | Level: Low
 2025-03-01 17:22:01 | User: SystemUser | Action: Revoked Card | Card: a | Level: High
+2025-03-01 18:50:40 | User: SystemUser | Action: Added Card | Card: CARD01 | Level: Medium
+2025-03-01 23:37:13 | User: SystemUser | Action: Added Card | Card: B111 | Level: Low
+2025-03-01 23:42:43 | User: SystemUser | Action: Added Card | Card:  | Level: Low
+2025-03-01 23:43:07 | User: SystemUser | Action: Added Card | Card:  | Level: Low
+2025-03-01 23:46:43 | User: SystemUser | Action: Modified Card | Card:  | Level: Low -> Low
