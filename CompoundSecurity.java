@@ -102,9 +102,9 @@ public class CompoundSecurity extends JFrame {
         JLabel cardLabel = new JLabel("Card ID:");
         cardIDField = new JTextField(10);
 
-        JLabel levelLabel = new JLabel("Access Level:");
-        String[] levels = {"Low", "Medium", "High"};
-        levelBox = new JComboBox<>(levels);
+        JLabel userTypeLabel = new JLabel("User Type:");
+        String[] userTypes = {"Guest", "Staff", "Admin"};
+        JComboBox<String> userTypeBox = new JComboBox<>(userTypes);
 
         JButton addButton = new JButton("Add Card");
         JButton modifyButton = new JButton("Modify Card");
@@ -128,14 +128,14 @@ public class CompoundSecurity extends JFrame {
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String cardID = cardIDField.getText();
-                String level = (String) levelBox.getSelectedItem();
+                String userType = (String) userTypeBox.getSelectedItem();
                 AccessCard newCard = null;
-                if (level.equalsIgnoreCase("Low")) {
-                    newCard = new GuestCard(cardID);  // Use GuestCard for Low level
-                } else if (level.equalsIgnoreCase("Medium")) {
-                    newCard = new StaffCard(cardID);  // Use StaffCard for Medium level
-                } else if (level.equalsIgnoreCase("High")) {
-                    newCard = new AdminCard(cardID);  // Use AdminCard for High level
+                if (userType.equalsIgnoreCase("Guest")) {
+                    newCard = new GuestCard(cardID);  // GuestCard has Low access
+                } else if (userType.equalsIgnoreCase("Staff")) {
+                    newCard = new StaffCard(cardID);  // StaffCard has Medium access
+                } else if (userType.equalsIgnoreCase("Admin")) {
+                    newCard = new AdminCard(cardID);  // AdminCard has High access
                 }
                 manager.addCard(newCard);
                 JOptionPane.showMessageDialog(null, "Card Added Successfully!");
@@ -152,7 +152,7 @@ public class CompoundSecurity extends JFrame {
         modifyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String cardID = cardIDField.getText();
-                String newLevel = (String) levelBox.getSelectedItem();
+                String newLevel = (String) userTypeBox.getSelectedItem(); // Access level still remains as Low, Medium, High
                 manager.modifyCard(cardID, newLevel);
             }
         });
@@ -173,8 +173,8 @@ public class CompoundSecurity extends JFrame {
 
         add(cardLabel);
         add(cardIDField);
-        add(levelLabel);
-        add(levelBox);
+        add(userTypeLabel);
+        add(userTypeBox); // Add the userTypeBox to the UI
         add(addButton);
         add(modifyButton);
         add(revokeButton);
