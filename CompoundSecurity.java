@@ -16,6 +16,9 @@ public class CompoundSecurity extends JFrame {
     private JButton adminButton;
     private JButton userButton;
     private final String ADMIN_PASSWORD = "admin11";
+    private Set<String> usedFloors = new HashSet<>();
+    private JButton viewStatusButton;
+
 
     public CompoundSecurity() {
         manager = new CardManager();
@@ -279,38 +282,38 @@ public class CompoundSecurity extends JFrame {
                 }
 
                 String cardFloorKey = cardID + "-" + selectedFloor;
-                if (selectedFloors.contains(cardFloorKey)) {
-                    JOptionPane.showMessageDialog(null, "This floor has already been selected for this card!", "Error", JOptionPane.ERROR_MESSAGE);
+                if (usedFloors.contains(cardFloorKey)) {
+                    JOptionPane.showMessageDialog(null, "This card has already been used on " + selectedFloor + "!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 AccessCard card = manager.getCard(cardID);
-                if (card != null) {
-                    String cardLevel = card.getLevel();
-
-                    String cardStatus = "Card ID: " + cardID + " --- Card Level: " + cardLevel + " --- Username: " + username;
-
-                    if (cardLevel.equals("Medium") || cardLevel.equals("High")) {
-                        displayArea.setText(cardStatus + "\nAccess Denied: Your card does not have permission to access any floors.");
-                        JOptionPane.showMessageDialog(null, "Access Denied: Your card does not have permission to access any floors.", "Access Denied", JOptionPane.ERROR_MESSAGE);
-                    } else if (cardLevel.equals("Low")) {
-                        displayArea.setText(cardStatus + "\nAccess to " + selectedFloor + ": Granted");
-
-                        selectedFloors.add(cardFloorKey);
-
-                        StringBuilder history = new StringBuilder();
-                        for (String historyItem : selectedFloors) {
-                            history.append(historyItem.replace("-", " ")).append("\n");
-                        }
-                        displayArea.setText("Card Information:\n" + cardStatus + "\nAccess History:\n" + history.toString());
-
-                        JOptionPane.showMessageDialog(null, "Access to " + selectedFloor + ": Granted", "Access Granted", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                } else {
+                if (card == null) {
                     displayArea.setText("Card not found.");
+                    JOptionPane.showMessageDialog(null, "Card not found!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
+
+                String cardLevel = card.getAccessLevel();
+                String cardStatus = "Card ID: " + cardID + " | Card Level: " + cardLevel + " | Username: " + username;
+
+                if (cardLevel.equalsIgnoreCase("Medium") || cardLevel.equalsIgnoreCase("High")) {
+                    displayArea.setText(cardStatus + "\nAccess Denied: This card cannot be used.");
+                    manager.logUsage(username, "Access Denied", cardID, "N/A");
+                    JOptionPane.showMessageDialog(null, "Access Denied: This card cannot be used.", "Access Denied", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                usedFloors.add(cardFloorKey);
+                manager.recordUsage(cardID, username, selectedFloor, cardLevel);
+                manager.logUsage(username, "Access Granted", cardID, "Access to " + selectedFloor);
+                JOptionPane.showMessageDialog(null, "Access to " + selectedFloor + " granted.", "Access Granted", JOptionPane.INFORMATION_MESSAGE);
+
+                String status = manager.getFullCardStatus(cardID);
+                displayArea.setText(status);
             }
         });
+
 
 
         backButton.addActionListener(new ActionListener() {

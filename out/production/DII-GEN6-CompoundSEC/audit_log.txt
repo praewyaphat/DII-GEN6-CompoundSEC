@@ -88,3 +88,35 @@
 2025-03-02 02:57:17 | User: SystemUser | Action: Added Card | Card: B11 | Level: Medium
 2025-03-02 03:09:48 | User: SystemUser | Action: Added Card | Card: C01 | Level: High
 2025-03-02 03:41:37 | User: SystemUser | Action: Added Card | Card: C12 | Level: High
+2025-03-02 04:41:42 | User: SystemUser | Action: Added Card | Card: praew | Level: Low
+2025-03-02 05:54:09 | User: SYSTEM | Action: Added Card | Card: C11 | Level: High
+2025-03-02 05:54:21 | User: p | Action: Access Granted | Card: a11 | Level: Low -> Floor 1
+2025-03-02 05:54:31 | User: k | Action: Access Granted | Card: a11 | Level: Low -> Floor 1
+2025-03-02 05:54:36 | User: k | Action: Access Denied | Card: a11 | Level: Low -> Floor 2
+2025-03-02 05:54:50 | User: k | Action: Access Granted | Card: C01 | Level: High -> Floor 2
+2025-03-02 05:55:12 | User: k | Action: Access Denied | Card: praew | Level: Low -> Floor 2
+2025-03-02 06:02:50 | User: p | Action: Access Granted | Card: a11 | Level: Access to Floor 1
+2025-03-02 06:02:57 | User: k | Action: Access Granted | Card: a11 | Level: Access to Floor 1
+2025-03-02 06:03:03 | User: p | Action: Access Granted | Card: a11 | Level: Access to Floor 1
+2025-03-02 06:03:09 | User: p | Action: Access Denied | Card: C12 | Level: N/A
+2025-03-02 06:03:16 | User: p | Action: Access Denied | Card: B11 | Level: N/A
+2025-03-02 06:05:32 | User: p | Action: Access Granted | Card: a11 | Level: Access to Floor 1
+2025-03-02 06:05:43 | User: k | Action: Access Granted | Card: a22 | Level: Access to Floor 1
+2025-03-02 06:05:59 | User: m | Action: Access Denied | Card: C01 | Level: N/A
+2025-03-02 06:15:29 | User: p | Action: Access Granted | Card: a11 | Level: Access to Floor 1
+2025-03-02 06:15:38 | User: k | Action: Access Denied | Card: B11 | Level: N/A
+2025-03-02 06:15:43 | User: k | Action: Access Granted | Card: a22 | Level: Access to Floor 1
+2025-03-02 06:19:31 | User: p | Action: Access Granted | Card: a11 | Level: Access to Floor 1
+2025-03-02 06:19:42 | User: m | Action: Access Granted | Card: a22 | Level: Access to Floor 1
+2025-03-02 06:24:09 | User: p | Action: Access Granted | Card: a11 | Level: Access to Floor 1
+2025-03-02 06:24:20 | User: m | Action: Access Denied | Card: B11 | Level: N/A
+2025-03-02 06:24:24 | User: m | Action: Access Granted | Card: a22 | Level: Access to Floor 1
+2025-03-02 06:30:40 | User: Admin | Action: Revoked Card | Card: a11 | Level: Low
+2025-03-02 06:30:40 | User: Admin | Action: Revoked Card | Card: a22 | Level: Low
+2025-03-02 06:30:40 | User: Admin | Action: Revoked Card | Card: B11 | Level: Medium
+2025-03-02 06:30:40 | User: Admin | Action: Revoked Card | Card: C01 | Level: High
+2025-03-02 06:30:40 | User: Admin | Action: Revoked Card | Card: C12 | Level: High
+2025-03-02 06:30:40 | User: Admin | Action: Revoked Card | Card: praew | Level: Low
+2025-03-02 06:30:40 | User: Admin | Action: Revoked Card | Card: C11 | Level: High
+2025-03-02 06:32:46 | User: p | Action: Access Granted | Card: a11 | Level: Access to Floor 1
+2025-03-02 06:32:58 | User: m | Action: Access Granted | Card: a22 | Level: Access to Floor 1
