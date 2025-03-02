@@ -15,7 +15,7 @@ public class CardManager {
     // singeleton pattern//
     private static CardManager instance;
 
-    private CardManager() {
+    CardManager() {
         loadFromFile();
     }
 
@@ -219,7 +219,7 @@ public class CardManager {
         return "Card ID: " + cardID + " | Level: " + card.getAccessLevel() + " | Status: Active";
     }
 
-
+// Observer  Pattern //
     public void modifyCardWithTime(String cardID, String newLevel, LocalDateTime newStartTime, LocalDateTime newEndTime) {
         for (AccessCard card : cards) {
             if (card.getCardID().equals(cardID)) {
