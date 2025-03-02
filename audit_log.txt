@@ -1,184 +1,23 @@
-[2025-02-06T10:43:21.926762] User: SystemUser | Card: A111 | Level: High | Location: Main Entrance
-[2025-02-06T11:10:14.798203900] User: SystemUser | Action: Added Card | Card: A333 | Level: Low
-[2025-02-06T11:13:04.485924] User: SystemUser | Action: Revoked Card | Card: A100 | Level: Low
-[2025-02-06T11:13:04.487924400] User: SystemUser | Action: Revoked Card | Card: A111 | Level: High
-[2025-02-06T11:13:04.488922100] User: SystemUser | Action: Revoked Card | Card: A222 | Level: Medium
-[2025-02-06T11:13:04.489923500] User: SystemUser | Action: Revoked Card | Card: A333 | Level: Low
-[2025-02-06T11:13:43.541162300] User: SystemUser | Action: Modified Card | Card: A222 | Level: Medium -> high
-[2025-02-24T01:05:57.626374100] User: SystemUser | Action: Added Card | Card: A111 | Level: Low
-[2025-02-24T01:17:58.672193900] User: SystemUser | Action: Added Card | Card: A111 | Level: Low
-[2025-02-24T01:18:16.431599800] User: SystemUser | Action: Revoked Card | Card: A100 | Level: Low
-[2025-02-24T01:18:16.433599500] User: SystemUser | Action: Revoked Card | Card: A333 | Level: Low
-[2025-02-24T01:18:16.433599500] User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-[2025-02-24T01:18:16.434600300] User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-[2025-02-24T01:27:48.133236800] User: SystemUser | Action: Added Card | Card: A111 | Level: Low
-[2025-02-24T01:35:33.180660800] User: SystemUser | Action: Added Card | Card: A111 | Level: Low
-[2025-02-24T01:37:59.962431800] User: SystemUser | Action: Added Card | Card: a333 | Level: Medium
-[2025-02-24T01:53:09.972889200] User: SystemUser | Action: Added Card | Card: A2222 | Level: Low
-[2025-02-24T01:55:01.687053300] User: SystemUser | Action: Revoked Card | Card: A100 | Level: Low
-[2025-02-24T01:55:01.694298900] User: SystemUser | Action: Revoked Card | Card: A333 | Level: Low
-[2025-02-24T01:55:01.694298900] User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-[2025-02-24T01:55:01.695316600] User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-[2025-02-24T01:55:01.696334800] User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-[2025-02-24T01:55:01.696334800] User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-[2025-02-24T01:55:01.697353300] User: SystemUser | Action: Revoked Card | Card: a333 | Level: Medium
-[2025-02-24T01:55:01.697353300] User: SystemUser | Action: Revoked Card | Card: A2222 | Level: Low
-[2025-02-24T02:29:24.610882500] User: SystemUser | Action: Added Card | Card:  | Level: Low
-[2025-02-24T03:40:24.284136900] User: SystemUser | Action: Revoked Card | Card: A100 | Level: Low
-[2025-02-24T03:40:24.293839] User: SystemUser | Action: Revoked Card | Card: A333 | Level: Low
-[2025-02-24T03:40:24.295139] User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-[2025-02-24T03:40:24.295139] User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-[2025-02-24T03:40:24.296140700] User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-[2025-02-24T03:40:24.296140700] User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-[2025-02-24T03:40:24.297139500] User: SystemUser | Action: Revoked Card | Card: a333 | Level: Medium
-[2025-02-24T03:40:24.297139500] User: SystemUser | Action: Revoked Card | Card: A2222 | Level: Low
-[2025-02-24T03:40:24.297139500] User: SystemUser | Action: Revoked Card | Card:  | Level: Low
-[2025-02-24T04:37:41.127815800] User: SystemUser | Action: Revoked Card | Card: A100 | Level: Low
-[2025-02-24T04:37:41.134179] User: SystemUser | Action: Revoked Card | Card: A333 | Level: Low
-[2025-02-24T04:37:41.134179] User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-[2025-02-24T04:37:41.135197200] User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-[2025-02-24T04:37:41.135197200] User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-[2025-02-24T04:37:41.136211600] User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-[2025-02-24T04:37:41.136211600] User: SystemUser | Action: Revoked Card | Card: a333 | Level: Medium
-[2025-02-24T04:37:41.137232900] User: SystemUser | Action: Revoked Card | Card: A2222 | Level: Low
-[2025-02-24T10:46:05.500106900] User: SystemUser | Action: Added Card | Card: A111 | Level: Low
-[2025-02-24T10:46:12.937793200] User: SystemUser | Action: Added Card | Card: A222 | Level: Low
-2025-02-24 11:22:57 | SystemUser | Added Card | Card: a
-2025-02-24 11:35:39 | User: SystemUser | Action: Revoked Card | Card: A100 | Level: Low
-2025-02-24 11:35:39 | User: SystemUser | Action: Revoked Card | Card: A333 | Level: Low
-2025-02-24 11:35:39 | User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-2025-02-24 11:35:39 | User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-2025-02-24 11:35:40 | User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-2025-02-24 11:35:40 | User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-2025-02-24 11:35:40 | User: SystemUser | Action: Revoked Card | Card: a333 | Level: Medium
-2025-02-24 11:35:40 | User: SystemUser | Action: Revoked Card | Card: A2222 | Level: Low
-2025-02-24 11:35:40 | User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-2025-02-24 11:35:40 | User: SystemUser | Action: Revoked Card | Card: A222 | Level: Low
-2025-02-24 11:35:40 | User: SystemUser | Action: Revoked Card | Card: a | Level: High
-2025-03-01 15:57:16 | User: SystemUser | Action: Revoked Card | Card: A100 | Level: Low
-2025-03-01 15:57:16 | User: SystemUser | Action: Revoked Card | Card: A333 | Level: Low
-2025-03-01 15:57:16 | User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-2025-03-01 15:57:16 | User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-2025-03-01 15:57:16 | User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-2025-03-01 15:57:16 | User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-2025-03-01 15:57:16 | User: SystemUser | Action: Revoked Card | Card: a333 | Level: Medium
-2025-03-01 15:57:16 | User: SystemUser | Action: Revoked Card | Card: A2222 | Level: Low
-2025-03-01 15:57:16 | User: SystemUser | Action: Revoked Card | Card: A111 | Level: Low
-2025-03-01 15:57:16 | User: SystemUser | Action: Revoked Card | Card: A222 | Level: Low
-2025-03-01 15:57:16 | User: SystemUser | Action: Revoked Card | Card: a | Level: High
-2025-03-01 16:09:22 | User: SystemUser | Action: Revoked Card | Card: A100 | Level: Low
-2025-03-01 16:09:22 | User: SystemUser | Action: Revoked Card | Card: A333 | Level: Low
-2025-03-01 16:09:22 | User: SystemUser | Action: Revoked Card | Card: a333 | Level: Medium
-2025-03-01 16:09:22 | User: SystemUser | Action: Revoked Card | Card: A2222 | Level: Low
-2025-03-01 16:09:22 | User: SystemUser | Action: Revoked Card | Card: A222 | Level: Low
-2025-03-01 16:09:22 | User: SystemUser | Action: Revoked Card | Card: a | Level: High
-2025-03-01 17:22:01 | User: SystemUser | Action: Revoked Card | Card: A100 | Level: Low
-2025-03-01 17:22:01 | User: SystemUser | Action: Revoked Card | Card: A333 | Level: Low
-2025-03-01 17:22:01 | User: SystemUser | Action: Revoked Card | Card: a333 | Level: Medium
-2025-03-01 17:22:01 | User: SystemUser | Action: Revoked Card | Card: A2222 | Level: Low
-2025-03-01 17:22:01 | User: SystemUser | Action: Revoked Card | Card: A222 | Level: Low
-2025-03-01 17:22:01 | User: SystemUser | Action: Revoked Card | Card: a | Level: High
-2025-03-01 18:50:40 | User: SystemUser | Action: Added Card | Card: CARD01 | Level: Medium
-2025-03-01 23:37:13 | User: SystemUser | Action: Added Card | Card: B111 | Level: Low
-2025-03-01 23:42:43 | User: SystemUser | Action: Added Card | Card:  | Level: Low
-2025-03-01 23:43:07 | User: SystemUser | Action: Added Card | Card:  | Level: Low
-2025-03-01 23:46:43 | User: SystemUser | Action: Modified Card | Card:  | Level: Low -> Low
-2025-03-02 02:57:01 | User: SystemUser | Action: Added Card | Card: a11 | Level: Low
-2025-03-02 02:57:07 | User: SystemUser | Action: Added Card | Card: a22 | Level: Low
-2025-03-02 02:57:17 | User: SystemUser | Action: Added Card | Card: B11 | Level: Medium
-2025-03-02 03:09:48 | User: SystemUser | Action: Added Card | Card: C01 | Level: High
-2025-03-02 03:41:37 | User: SystemUser | Action: Added Card | Card: C12 | Level: High
-2025-03-02 04:41:42 | User: SystemUser | Action: Added Card | Card: praew | Level: Low
-2025-03-02 05:54:09 | User: SYSTEM | Action: Added Card | Card: C11 | Level: High
-2025-03-02 05:54:21 | User: p | Action: Access Granted | Card: a11 | Level: Low -> Floor 1
-2025-03-02 05:54:31 | User: k | Action: Access Granted | Card: a11 | Level: Low -> Floor 1
-2025-03-02 05:54:36 | User: k | Action: Access Denied | Card: a11 | Level: Low -> Floor 2
-2025-03-02 05:54:50 | User: k | Action: Access Granted | Card: C01 | Level: High -> Floor 2
-2025-03-02 05:55:12 | User: k | Action: Access Denied | Card: praew | Level: Low -> Floor 2
-2025-03-02 06:02:50 | User: p | Action: Access Granted | Card: a11 | Level: Access to Floor 1
-2025-03-02 06:02:57 | User: k | Action: Access Granted | Card: a11 | Level: Access to Floor 1
-2025-03-02 06:03:03 | User: p | Action: Access Granted | Card: a11 | Level: Access to Floor 1
-2025-03-02 06:03:09 | User: p | Action: Access Denied | Card: C12 | Level: N/A
-2025-03-02 06:03:16 | User: p | Action: Access Denied | Card: B11 | Level: N/A
-2025-03-02 06:05:32 | User: p | Action: Access Granted | Card: a11 | Level: Access to Floor 1
-2025-03-02 06:05:43 | User: k | Action: Access Granted | Card: a22 | Level: Access to Floor 1
-2025-03-02 06:05:59 | User: m | Action: Access Denied | Card: C01 | Level: N/A
-2025-03-02 06:15:29 | User: p | Action: Access Granted | Card: a11 | Level: Access to Floor 1
-2025-03-02 06:15:38 | User: k | Action: Access Denied | Card: B11 | Level: N/A
-2025-03-02 06:15:43 | User: k | Action: Access Granted | Card: a22 | Level: Access to Floor 1
-2025-03-02 06:19:31 | User: p | Action: Access Granted | Card: a11 | Level: Access to Floor 1
-2025-03-02 06:19:42 | User: m | Action: Access Granted | Card: a22 | Level: Access to Floor 1
-2025-03-02 06:24:09 | User: p | Action: Access Granted | Card: a11 | Level: Access to Floor 1
-2025-03-02 06:24:20 | User: m | Action: Access Denied | Card: B11 | Level: N/A
-2025-03-02 06:24:24 | User: m | Action: Access Granted | Card: a22 | Level: Access to Floor 1
-2025-03-02 06:30:40 | User: Admin | Action: Revoked Card | Card: a11 | Level: Low
-2025-03-02 06:30:40 | User: Admin | Action: Revoked Card | Card: a22 | Level: Low
-2025-03-02 06:30:40 | User: Admin | Action: Revoked Card | Card: B11 | Level: Medium
-2025-03-02 06:30:40 | User: Admin | Action: Revoked Card | Card: C01 | Level: High
-2025-03-02 06:30:40 | User: Admin | Action: Revoked Card | Card: C12 | Level: High
-2025-03-02 06:30:40 | User: Admin | Action: Revoked Card | Card: praew | Level: Low
-2025-03-02 06:30:40 | User: Admin | Action: Revoked Card | Card: C11 | Level: High
-2025-03-02 06:32:46 | User: p | Action: Access Granted | Card: a11 | Level: Access to Floor 1
-2025-03-02 06:32:58 | User: m | Action: Access Granted | Card: a22 | Level: Access to Floor 1
-2025-03-02 07:11:22 | User: Admin | Action: Added Card | Card: j1 | Level: Low
-2025-03-02 07:11:35 | User: l | Action: Access Granted | Card: a11 | Level: Access to Floor 1
-2025-03-02 07:11:44 | User: a | Action: Access Granted | Card: a22 | Level: Access to Floor 1
-2025-03-02 07:33:58 | User: m | Action: Access Granted | Card: a11 | Floor: Access to Floor 1
-2025-03-02 07:34:07 | User: u | Action: Access Denied | Card: B11 | Floor: N/A
-2025-03-02 07:34:11 | User: u | Action: Access Granted | Card: a22 | Floor: Access to Floor 1
-2025-03-02 07:34:39 | User: l | Action: Access Granted | Card: praew | Floor: Access to Floor 1
-2025-03-02 07:42:03 | User: p | Action: Access Granted | Card: a11 | Floor: Access to Floor 1
-2025-03-02 07:42:17 | User: o | Action: Access Granted | Card: a22 | Floor: Access to Floor 1
-2025-03-02 07:43:53 | User: p; | Action: Access Granted | Card: a11 | Floor: Access to Floor 1
-2025-03-02 07:44:01 | User: l | Action: Access Denied | Card: B11 | Floor: N/A
-2025-03-02 07:44:10 | User: y | Action: Access Denied | Card: C01 | Floor: N/A
-2025-03-02 08:27:33 | User: Admin | Action: Added Card | Card: A111 | Detail: Guest
-2025-03-02 08:27:57 | User: p | Action: Access Granted | Card: a11 | Floor: Access to Floor 1
-2025-03-02 08:28:10 | User: t | Action: Access Granted | Card: A111 | Floor: Access to Floor 1
-2025-03-02 08:37:32 | User: p | Action: Access Granted | Card: A111 | Floor: Access to Floor 1
-2025-03-02 08:40:35 | User: p | Action: Access Denied | Card: A111 | Detail: Expired Card
-2025-03-02 08:40:38 | User: p | Action: Access Denied | Card: A111 | Detail: Expired Card
-2025-03-02 08:40:50 | User: t | Action: Access Denied | Card: A111 | Detail: Expired Card
-2025-03-02 08:41:59 | User: Admin | Action: Added Card | Card: B222 | Detail: Guest
-2025-03-02 08:42:10 | User: o | Action: Access Granted | Card: B222 | Floor: Access to Floor 1
-2025-03-02 08:42:25 | User: o | Action: Access Denied | Card: A111 | Floor: Expired Card
-2025-03-02 08:43:36 | User: i | Action: Access Granted | Card: B222 | Floor: Access to Floor 2
-2025-03-02 08:45:12 | User: r | Action: Access Granted | Card: B222 | Floor: Access to Floor 1
-2025-03-02 09:02:11 | User: p | Action: Access Granted | Card: B222 | Floor: Access to Floor 1
-2025-03-02 09:02:25 | User: o | Action: Access Denied | Card: A111 | Floor: Expired Card
-2025-03-02 09:12:55 | User: p | Action: Access Denied | Card: A111 | Detail: Expired Card
-2025-03-02 09:13:06 | User: o | Action: Access Granted | Card: B222 | Floor: Access to Floor 1
-2025-03-02 09:22:32 | User: p | Action: Access Granted | Card: B222 | Floor: Access to Floor 1
-2025-03-02 09:22:48 | User: o | Action: Access Denied | Card: A111 | Floor: Expired Card
-2025-03-02 09:22:58 | User: y | Action: Access Granted | Card: B222 | Floor: Access to Floor 2
-2025-03-02 20:00:13 | User: Admin | Action: Added Card | Card: A1001 | Detail: Guest
-2025-03-02 20:00:50 | User: j | Action: Access Granted | Card: A1001 | Floor: Access to Floor 1
-2025-03-02 20:01:09 | User: h | Action: Access Granted | Card: A1001 | Floor: Access to Floor 3
-2025-03-02 20:03:25 | User: o | Action: Access Granted | Card: A1001 | Floor: Access to Floor 1
-2025-03-02 20:07:47 | User: Admin | Action: Added Card | Card: m01 | Detail: Guest
-2025-03-02 | User: p | Action: Access Granted | Card: a11 | Room: Access to Room 101
-2025-03-02 | User: l | Action: Access Denied | Card: C12 | Room: N/A
-2025-03-02 | User: l | Action: Access Granted | Card: A1001 | Room: Access to Room 101
-2025-03-02 | User: o | Action: Access Granted | Card: m01 | Room: Access to Room 101
-2025-03-02 | User: i | Action: Access Granted | Card: A1001 | Room: Access to Room 101
-2025-03-02 | User: p | Action: Access Granted | Card: A1001 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: o | Action: Access Granted | Card: m01 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: p | Action: Access Granted | Card: m01 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: p | Action: Access Granted | Card: m01 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: p | Action: Access Granted | Card: j1 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: pi | Action: Access Granted | Card: A1001 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: pi | Action: Access Granted | Card: A1001 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: u | Action: Access Granted | Card: m01 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: y | Action: Access Granted | Card: B222 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: o | Action: Access Granted | Card: a11 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: o | Action: Access Granted | Card: A1001 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: p | Action: Access Granted | Card: A1001 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: y | Action: Access Granted | Card: m01 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: p | Action: Access Granted | Card: a11 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: o | Action: Access Granted | Card: A1001 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: p | Action: Access Granted | Card: A1001 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: q | Action: Access Granted | Card: A1001 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: q | Action: Access Granted | Card: A1001 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: p | Action: Access Granted | Card: a11 | Location: Access to Floor 1 - Room 101
-2025-03-02 | User: q | Action: Access Granted | Card: m01 | Location: Access to Floor 2 - Room 101
-2025-03-02 | User: a | Action: Access Granted | Card: B222 | Location: Access to Floor 3 - Room 101
+2025-03-03 00:25:19 | User: Admin | Action: Added Card | Card: A100 | Detail: Guest
+2025-03-03 00:25:25 | User: Admin | Action: Added Card | Card: A101 | Detail: Guest
+2025-03-03 00:25:33 | User: Admin | Action: Added Card | Card: A102 | Detail: Guest
+2025-03-03 00:25:39 | User: Admin | Action: Added Card | Card: S100 | Detail: Guest
+2025-03-03 00:25:44 | User: Admin | Action: Added Card | Card: S101 | Detail: Guest
+2025-03-03 00:25:51 | User: Admin | Action: Added Card | Card: V100 | Detail: Admin
+2025-03-03 00:26:07 | User: praew | Action: Access Granted | Card: S101 | Detail: Access to Floor 1 - Room 101
+2025-03-03 | User: praew | Action: Access Granted | Card: S101 | Location: Access to Floor 1 - Room 101
+2025-03-03 | User: praew | Action: Access Granted | Card: A101 | Location: Access to Floor 2 - Room 101
+2025-03-03 | User: praew | Action: Access Granted | Card: A101 | Location: Access to Floor 2 - Room 101
+2025-03-03 | User: Admin | Action: Revoked Card | Card: A100 | Location: Guest
+2025-03-03 | User: Admin | Action: Revoked Card | Card: A101 | Location: Guest
+2025-03-03 | User: Admin | Action: Revoked Card | Card: A102 | Location: Guest
+2025-03-03 | User: Admin | Action: Revoked Card | Card: S100 | Location: Guest
+2025-03-03 | User: Admin | Action: Revoked Card | Card: S101 | Location: Guest
+2025-03-03 | User: Admin | Action: Revoked Card | Card: V100 | Location: Admin
+2025-03-03 | User: Admin | Action: Revoked Card | Card: A100 | Location: Guest
+2025-03-03 | User: Admin | Action: Revoked Card | Card: A101 | Location: Guest
+2025-03-03 | User: Admin | Action: Revoked Card | Card: A102 | Location: Guest
+2025-03-03 | User: Admin | Action: Revoked Card | Card: S101 | Location: Guest
+2025-03-03 | User: Admin | Action: Revoked Card | Card: V100 | Location: Admin
+2025-03-03 | User: Admin | Action: Added Card | Card: S100 | Location: Staff
+2025-03-03 | User: Admin | Action: Added Card | Card: S101 | Location: Staff

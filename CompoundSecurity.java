@@ -392,7 +392,6 @@ public class CompoundSecurity extends JFrame {
                     return;
                 }
 
-                // ✅ ตรวจสอบว่าห้องนี้เคยถูกใช้โดยบัตรอื่นแล้วหรือไม่
                 if (roomUsage.containsKey(roomKey)) {
                     String previousCard = roomUsage.get(roomKey);
                     JOptionPane.showMessageDialog(null, "This room is already assigned to another card (Card: " + previousCard + ")!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -405,15 +404,22 @@ public class CompoundSecurity extends JFrame {
                     JOptionPane.showMessageDialog(null, "Card not found!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                if (!card.getAccessLevel().equalsIgnoreCase("Guest")) {
+                    JOptionPane.showMessageDialog(null, "Access Denied! Only Guest cards can use this feature.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                manager.logUsage(username, "Access Granted", cardID, "Access to " + selectedFloor + " - " + selectedRoom);
+                JOptionPane.showMessageDialog(null, "Access to " + selectedFloor + " - " + selectedRoom + " granted.", "Access Granted", JOptionPane.INFORMATION_MESSAGE);
+                displayArea.setText(manager.getFullCardStatus(cardID));
+
 
                 String cardLevel = card.getAccessLevel();
 
-                // ✅ บันทึกว่าการ์ดนี้ใช้กับห้องไหนแล้ว
                 selectedRooms.put(cardID, roomKey);
                 roomUsage.put(roomKey, cardID); // ✅ บันทึกว่าห้องนี้ใช้บัตรไหนแล้ว
                 saveSelectedRooms(); // บันทึกข้อมูลลงไฟล์
 
-                // ✅ บันทึกลง Audit Log
                 manager.setAuditTrail(new AuditTrails.RoomAudit());
                 manager.recordUsage(cardID, username, roomKey, cardLevel);
                 manager.logUsage(username, "Access Granted", cardID, "Access to " + roomKey);

@@ -1,4 +1,4 @@
-    // Strategy Pattern //
+// Strategy Pattern //
 public class AuditTrails {
 
     public static abstract class AuditTrail {
@@ -25,17 +25,17 @@ public class AuditTrails {
         }
     }
 
-        public static class RoomAudit extends AuditTrail {
-            @Override
-            public void log(String username, String action, String cardID, String floorRoom) {
-                String timestamp = java.time.LocalDateTime.now().format(formatter);
-                String logEntry = String.format("%s | User: %s | Action: %s | Card: %s | Location: %s%n",
-                        timestamp, username, action, cardID, floorRoom);
-                try (java.io.FileWriter writer = new java.io.FileWriter(AUDIT_FILE, true)) {
-                    writer.write(logEntry);
-                } catch (java.io.IOException e) {
-                    System.out.println("Error saving room audit log: " + e.getMessage());
-                }
+    public static class RoomAudit extends AuditTrail {
+        @Override
+        public void log(String username, String action, String cardID, String floorRoom) {
+            String timestamp = java.time.LocalDateTime.now().format(formatter);
+            String logEntry = String.format("%s | User: %s | Action: %s | Card: %s | Location: %s%n",
+                    timestamp, username, action, cardID, floorRoom);
+            try (java.io.FileWriter writer = new java.io.FileWriter(AUDIT_FILE, true)) {
+                writer.write(logEntry);
+            } catch (java.io.IOException e) {
+                System.out.println("Error saving room audit log: " + e.getMessage());
             }
         }
     }
+}

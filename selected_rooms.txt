@@ -1,8 +1,5 @@
-a11,Floor 1 - Room 101
-A1001,Floor 1 - Room 101
-B222,Floor 3 - Room 101
-m01,Floor 2 - Room 101
+S101,Floor 1 - Room 101
+A101,Floor 2 - Room 101
 ###
-Floor 2 - Room 101,m01
-Floor 3 - Room 101,B222
-Floor 1 - Room 101,a11
+Floor 2 - Room 101,A101
+Floor 1 - Room 101,S101
