@@ -123,3 +123,12 @@
 2025-03-02 07:11:22 | User: Admin | Action: Added Card | Card: j1 | Level: Low
 2025-03-02 07:11:35 | User: l | Action: Access Granted | Card: a11 | Level: Access to Floor 1
 2025-03-02 07:11:44 | User: a | Action: Access Granted | Card: a22 | Level: Access to Floor 1
+2025-03-02 07:33:58 | User: m | Action: Access Granted | Card: a11 | Floor: Access to Floor 1
+2025-03-02 07:34:07 | User: u | Action: Access Denied | Card: B11 | Floor: N/A
+2025-03-02 07:34:11 | User: u | Action: Access Granted | Card: a22 | Floor: Access to Floor 1
+2025-03-02 07:34:39 | User: l | Action: Access Granted | Card: praew | Floor: Access to Floor 1
+2025-03-02 07:42:03 | User: p | Action: Access Granted | Card: a11 | Floor: Access to Floor 1
+2025-03-02 07:42:17 | User: o | Action: Access Granted | Card: a22 | Floor: Access to Floor 1
+2025-03-02 07:43:53 | User: p; | Action: Access Granted | Card: a11 | Floor: Access to Floor 1
+2025-03-02 07:44:01 | User: l | Action: Access Denied | Card: B11 | Floor: N/A
+2025-03-02 07:44:10 | User: y | Action: Access Denied | Card: C01 | Floor: N/A

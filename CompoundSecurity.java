@@ -4,21 +4,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
 public class CompoundSecurity extends JFrame {
     private CardManager manager;
     private JTextField cardIDField;
-    private JComboBox<String> levelBox;
     private JTextArea displayArea;
     private JButton adminButton;
     private JButton userButton;
     private final String ADMIN_PASSWORD = "admin11";
     private Set<String> usedFloors = new HashSet<>();
     private JButton viewStatusButton;
-
 
     public CompoundSecurity() {
         manager = new CardManager();
@@ -31,7 +28,7 @@ public class CompoundSecurity extends JFrame {
         setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(10,10,10,10);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
@@ -45,12 +42,9 @@ public class CompoundSecurity extends JFrame {
         adminButton = new JButton("Admin");
         userButton = new JButton("Customer");
 
-        // Set preferred size for all buttons
         Dimension buttonSize = new Dimension(170, 50);
-
         adminButton.setPreferredSize(buttonSize);
         userButton.setPreferredSize(buttonSize);
-
         adminButton.setBackground(Color.decode("#8E715B"));
         adminButton.setForeground(Color.WHITE);
         userButton.setBackground(Color.decode("#8E715B"));
@@ -61,7 +55,6 @@ public class CompoundSecurity extends JFrame {
                 showAdminPasswordPrompt();
             }
         });
-
         userButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showUserUI();
@@ -71,7 +64,6 @@ public class CompoundSecurity extends JFrame {
         gbc.gridy = 1;
         gbc.gridwidth = 1;
         add(adminButton, gbc);
-
         gbc.gridx = 1;
         add(userButton, gbc);
 
@@ -82,17 +74,11 @@ public class CompoundSecurity extends JFrame {
         JPasswordField passwordField = new JPasswordField(10);
         passwordField.setEchoChar('●');
 
-        int option = JOptionPane.showConfirmDialog(
-                null,
-                passwordField,
-                "Enter Admin Password",
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE
-        );
-
-        if (option == JOptionPane.OK_OPTION) {
+        int option = JOptionPane.showConfirmDialog(null, passwordField, "Enter Admin Password",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if(option == JOptionPane.OK_OPTION) {
             String password = new String(passwordField.getPassword());
-            if (password.equals(ADMIN_PASSWORD)) {
+            if(password.equals(ADMIN_PASSWORD)) {
                 showAdminUI();
             } else {
                 JOptionPane.showMessageDialog(null, "Incorrect Password!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -119,7 +105,6 @@ public class CompoundSecurity extends JFrame {
         JButton backButton = new JButton("Back");
 
         Dimension buttonSize = new Dimension(170, 50);
-
         addButton.setPreferredSize(buttonSize);
         modifyButton.setPreferredSize(buttonSize);
         revokeButton.setPreferredSize(buttonSize);
@@ -127,29 +112,26 @@ public class CompoundSecurity extends JFrame {
         viewLogButton.setPreferredSize(buttonSize);
         backButton.setPreferredSize(buttonSize);
 
-        displayArea = new JTextArea(30, 55);
+        displayArea = new JTextArea(30,55);
         displayArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(displayArea);
 
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String cardID = cardIDField.getText().trim();
-                if (cardID.isEmpty()) {
+                if(cardID.isEmpty()){
                     JOptionPane.showMessageDialog(null, "Please enter a Card ID!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-
                 String userType = (String) userTypeBox.getSelectedItem();
                 AccessCard newCard = null;
-
-                if (userType.equalsIgnoreCase("Guest")) {
+                if(userType.equalsIgnoreCase("Guest")){
                     newCard = new GuestCard(cardID);
-                } else if (userType.equalsIgnoreCase("Staff")) {
+                } else if(userType.equalsIgnoreCase("Staff")){
                     newCard = new StaffCard(cardID);
-                } else if (userType.equalsIgnoreCase("Admin")) {
+                } else if(userType.equalsIgnoreCase("Admin")){
                     newCard = new AdminCard(cardID);
                 }
-
                 manager.addCard(newCard);
                 JOptionPane.showMessageDialog(null, "Card Added Successfully!");
                 cardIDField.setText("");
@@ -159,16 +141,15 @@ public class CompoundSecurity extends JFrame {
         modifyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String cardID = cardIDField.getText().trim();
-                if (cardID.isEmpty()) {
+                if(cardID.isEmpty()){
                     JOptionPane.showMessageDialog(null, "Please enter a Card ID to modify!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-
                 String newUserType = (String) userTypeBox.getSelectedItem();
                 String newLevel = "Low";
-                if (newUserType.equalsIgnoreCase("Staff")) {
+                if(newUserType.equalsIgnoreCase("Staff")){
                     newLevel = "Medium";
-                } else if (newUserType.equalsIgnoreCase("Admin")) {
+                } else if(newUserType.equalsIgnoreCase("Admin")){
                     newLevel = "High";
                 }
                 manager.modifyCard(cardID, newLevel);
@@ -179,11 +160,10 @@ public class CompoundSecurity extends JFrame {
         revokeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String cardID = cardIDField.getText().trim();
-                if (cardID.isEmpty()) {
+                if(cardID.isEmpty()){
                     JOptionPane.showMessageDialog(null, "Please enter a Card ID to revoke!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-
                 manager.revokeCard(cardID);
                 JOptionPane.showMessageDialog(null, "Card Revoked Successfully!");
                 cardIDField.setText("");
@@ -202,7 +182,7 @@ public class CompoundSecurity extends JFrame {
             }
         });
 
-        backButton.addActionListener(new ActionListener() { // ปุ่มกลับไปหน้าเลือก Role
+        backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showRoleSelectionUI();
             }
@@ -231,7 +211,7 @@ public class CompoundSecurity extends JFrame {
             while ((line = reader.readLine()) != null) {
                 logContent.append(line).append("\n");
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             logContent.append("Error reading audit log: ").append(e.getMessage());
         }
         displayArea.setText(logContent.toString());
@@ -242,12 +222,11 @@ public class CompoundSecurity extends JFrame {
         setLayout(new FlowLayout());
 
         JLabel cardLabel = new JLabel("Card ID:");
-        cardIDField = new JTextField(10);
+        // ใช้ comboBox ในการเลือก Card ID
+        JComboBox<String> cardComboBox = new JComboBox<>(manager.getCardIDs());
 
         JLabel usernameLabel = new JLabel("Username:");
         JTextField usernameField = new JTextField(10);
-
-        JComboBox<String> cardComboBox = new JComboBox<>(manager.getCardIDs());
 
         JLabel floorLabel = new JLabel("Floor:");
         String[] floors = {"Floor 1", "Floor 2", "Floor 3"};
@@ -256,14 +235,15 @@ public class CompoundSecurity extends JFrame {
         JButton useCardButton = new JButton("Ok");
         JButton backButton = new JButton("Back");
 
-        Dimension buttonSize = new Dimension(170, 50);
+        Dimension buttonSize = new Dimension(170,50);
         useCardButton.setPreferredSize(buttonSize);
         backButton.setPreferredSize(buttonSize);
 
-        displayArea = new JTextArea(30, 55);
+        displayArea = new JTextArea(30,55);
         displayArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(displayArea);
 
+        // เก็บชั้นที่ใช้ไปแล้ว
         Set<String> selectedFloors = new HashSet<>();
 
         useCardButton.addActionListener(new ActionListener() {
@@ -282,7 +262,7 @@ public class CompoundSecurity extends JFrame {
                 }
 
                 String cardFloorKey = cardID + "-" + selectedFloor;
-                if(usedFloors.contains(cardFloorKey)){
+                if(selectedFloors.contains(cardFloorKey)){
                     JOptionPane.showMessageDialog(null, "This card has already been used on " + selectedFloor + "!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -305,7 +285,7 @@ public class CompoundSecurity extends JFrame {
                     return;
                 }
 
-                usedFloors.add(cardFloorKey);
+                selectedFloors.add(cardFloorKey);
                 // ตั้ง AuditTrail ให้เป็น FloorAudit (สำหรับบันทึกระดับชั้น)
                 manager.setAuditTrail(new AuditTrails.FloorAudit());
                 manager.recordUsage(cardID, username, selectedFloor, cardLevel);
@@ -340,49 +320,40 @@ public class CompoundSecurity extends JFrame {
     private void showRoleSelectionUI() {
         getContentPane().removeAll();
         setLayout(new GridBagLayout());
-
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(10,10,10,10);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-
         JLabel titleLabel = new JLabel("SUNSET PARADISE \uD83C\uDF05");
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 36));
         titleLabel.setForeground(new Color(0x4E342E));
         add(titleLabel, gbc);
-
         adminButton = new JButton("Admin");
         userButton = new JButton("Customer");
-
-        Dimension buttonSize = new Dimension(170, 50);
+        Dimension buttonSize = new Dimension(170,50);
         adminButton.setPreferredSize(buttonSize);
         userButton.setPreferredSize(buttonSize);
         adminButton.setBackground(Color.decode("#8E715B"));
         adminButton.setForeground(Color.WHITE);
         userButton.setBackground(Color.decode("#8E715B"));
         userButton.setForeground(Color.WHITE);
-
         adminButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showAdminPasswordPrompt();
             }
         });
-
         userButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showUserUI();
             }
         });
-
         gbc.gridy = 1;
         gbc.gridwidth = 1;
         add(adminButton, gbc);
-
         gbc.gridx = 1;
         add(userButton, gbc);
-
         revalidate();
         repaint();
     }

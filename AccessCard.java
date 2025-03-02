@@ -33,46 +33,43 @@ public class AccessCard {
         return this.accessLevel;
     }
 
-
     public boolean grantAccess(String requiredLevel) {
         if (used) {
             return false;
         }
-
         if (requiredLevel.equalsIgnoreCase(accessLevel)) {
             used = true;
             return true;
         }
-
         return false;
     }
 }
 
 class AdminCard extends AccessCard {
     public AdminCard(String cardID) {
-        super(cardID, "High"); // Admins have the highest level of access by default
+        super(cardID, "High");
     }
 
     @Override
     public boolean grantAccess(String requiredLevel) {
-        return true; // Admin can access any level
+        return true;
     }
 }
 
 class GuestCard extends AccessCard {
     public GuestCard(String cardID) {
-        super(cardID, "Low"); // Guest has the lowest level of access by default
+        super(cardID, "Low");
     }
 
     @Override
     public boolean grantAccess(String requiredLevel) {
-        return requiredLevel.equalsIgnoreCase("Low"); // Guest can only access Low level
+        return requiredLevel.equalsIgnoreCase("Low");
     }
 }
 
 class StaffCard extends AccessCard {
     public StaffCard(String cardID) {
-        super(cardID, "Medium"); // Staff have medium level of access by default
+        super(cardID, "Medium");
     }
 
     @Override
