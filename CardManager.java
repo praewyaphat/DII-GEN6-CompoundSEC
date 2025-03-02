@@ -10,12 +10,22 @@ public class CardManager {
     private final String FILE_NAME = "cards.txt";
     private final String AUDIT_FILE = "audit_log.txt";
     private Map<String, List<String>> usageHistory = new HashMap<>();
-    // ตัวแปรสำหรับอ้างอิง AuditTrail (FloorAudit หรือ RoomAudit)
     private AuditTrails.AuditTrail auditTrail;
 
-    public CardManager() {
+    // singeleton pattern//
+    private static CardManager instance;
+
+    private CardManager() {
         loadFromFile();
     }
+
+    public static CardManager getInstance() {
+        if (instance == null) {
+            instance = new CardManager();
+        }
+        return instance;
+    }
+
 
     public void setAuditTrail(AuditTrails.AuditTrail auditTrail) {
         this.auditTrail = auditTrail;

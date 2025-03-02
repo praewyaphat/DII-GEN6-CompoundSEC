@@ -148,3 +148,6 @@
 2025-03-02 09:02:25 | User: o | Action: Access Denied | Card: A111 | Floor: Expired Card
 2025-03-02 09:12:55 | User: p | Action: Access Denied | Card: A111 | Detail: Expired Card
 2025-03-02 09:13:06 | User: o | Action: Access Granted | Card: B222 | Floor: Access to Floor 1
+2025-03-02 09:22:32 | User: p | Action: Access Granted | Card: B222 | Floor: Access to Floor 1
+2025-03-02 09:22:48 | User: o | Action: Access Denied | Card: A111 | Floor: Expired Card
+2025-03-02 09:22:58 | User: y | Action: Access Granted | Card: B222 | Floor: Access to Floor 2

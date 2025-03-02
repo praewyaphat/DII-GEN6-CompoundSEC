@@ -1,3 +1,4 @@
+    // Strategy Pattern //
 public class AuditTrails {
 
     public static abstract class AuditTrail {
