@@ -10,6 +10,7 @@ public class CardManager {
     private final String FILE_NAME = "cards.txt";
     private final String AUDIT_FILE = "audit_log.txt";
     private Map<String, List<String>> usageHistory = new HashMap<>();
+    private Map<String, String> selectedRooms = new HashMap<>();
     private AuditTrails.AuditTrail auditTrail;
 
     // singeleton pattern//
@@ -148,9 +149,8 @@ public class CardManager {
         }
     }
 
-    // บันทึกประวัติการใช้บัตร (usage history)
-    public void recordUsage(String cardID, String username, String selectedFloor, String cardLevel) {
-        String record = "Card ID: " + cardID + "-" + selectedFloor + " | Card Level: " + cardLevel + " | Username: " + username;
+    public void recordUsage(String cardID, String username, String floorRoom, String cardLevel) {
+        String record = "Card ID: " + cardID + " | Floor & Room: " + floorRoom + " | Card Level: " + cardLevel + " | Username: " + username;
         List<String> records = usageHistory.getOrDefault(cardID, new ArrayList<>());
         records.add(record);
         usageHistory.put(cardID, records);
@@ -165,7 +165,9 @@ public class CardManager {
 
         // ✅ สำหรับ Card Information ให้ดึงข้อมูลของบัตรที่เลือก
         String currentUsername = "Not used";
+        String currentFloorRoom = "Not assigned";
         List<String> recordsForCard = usageHistory.get(selectedCardID);
+
         if (recordsForCard != null && !recordsForCard.isEmpty()) {
             String latestRecord = recordsForCard.get(recordsForCard.size() - 1);
             String[] parts = latestRecord.split("Username: ");
@@ -182,7 +184,7 @@ public class CardManager {
         // ✅ ถ้าเป็น Time-Based Access Card ให้เพิ่ม Expiry Date
         if (card instanceof TimeBasedAccessCard) {
             TimeBasedAccessCard tbc = (TimeBasedAccessCard) card;
-            sb.append(" | Time-Based Encryption | Expires On: ")
+            sb.append(" | Expires On: ")
                     .append(tbc.getEndTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
         }
 
@@ -194,7 +196,7 @@ public class CardManager {
                 sb.append(rec);
                 if (card instanceof TimeBasedAccessCard) {
                     TimeBasedAccessCard tbc = (TimeBasedAccessCard) card;
-                    sb.append(" | Time-Based Encryption | Expires On: ")
+                    sb.append(" | Expires On: ")
                             .append(tbc.getEndTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
                 }
                 sb.append("\n");

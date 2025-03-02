@@ -5,9 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class CompoundSecurity extends JFrame {
@@ -17,12 +21,14 @@ public class CompoundSecurity extends JFrame {
     private JButton adminButton;
     private JButton userButton;
     private final String ADMIN_PASSWORD = "admin11";
-    private Set<String> usedFloors = new HashSet<>();
+    private Map<String, String> selectedRooms = new HashMap<>(); // บัตร -> ห้อง
+    private Map<String, String> roomUsage = new HashMap<>(); // ห้อง -> บัตร
     private JButton viewStatusButton;
 
     public CompoundSecurity() {
         manager = new CardManager();
         manager.loadFromFile();
+        loadSelectedRooms();
 
         setTitle("Access Card Management System");
         setSize(1000, 600);
@@ -118,7 +124,7 @@ public class CompoundSecurity extends JFrame {
         viewLogButton.setPreferredSize(buttonSize);
         backButton.setPreferredSize(buttonSize);
 
-        displayArea = new JTextArea(30,55);
+        displayArea = new JTextArea(30,70);
         displayArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(displayArea);
 
@@ -272,6 +278,10 @@ public class CompoundSecurity extends JFrame {
         String[] floors = {"Floor 1", "Floor 2", "Floor 3"};
         JComboBox<String> floorComboBox = new JComboBox<>(floors);
 
+        JLabel roomLabel = new JLabel("Room:");
+        String[] rooms = {"Room 101", "Room 102", "Room 201", "Room 202", "Room 301", "Room 302"};
+        JComboBox<String> roomComboBox = new JComboBox<>(rooms);
+
         JButton useCardButton = new JButton("Ok");
         JButton backButton = new JButton("Back");
 
@@ -285,11 +295,86 @@ public class CompoundSecurity extends JFrame {
 
         Set<String> selectedFloors = new HashSet<>();
 
+//        useCardButton.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                String username = usernameField.getText().trim();
+//                String cardID = (String) cardComboBox.getSelectedItem();
+//                String selectedFloor = (String) floorComboBox.getSelectedItem();
+//                String selectedRoom = (String) roomComboBox.getSelectedItem();
+//
+//                if (username.isEmpty()) {
+//                    JOptionPane.showMessageDialog(null, "Please enter a Username!", "Error", JOptionPane.ERROR_MESSAGE);
+//                    return;
+//                }
+//                if (cardID == null) {
+//                    JOptionPane.showMessageDialog(null, "Please select a Card!", "Error", JOptionPane.ERROR_MESSAGE);
+//                    return;
+//                }
+//
+//                String cardUsageKey = cardID + "-" + selectedFloor + "-" + selectedRoom;
+//                if (selectedRooms.contains(cardUsageKey)) {
+//                    JOptionPane.showMessageDialog(null, "This card has already been used for another room on this floor!", "Error", JOptionPane.ERROR_MESSAGE);
+//                    return;
+//                }
+//
+//                AccessCard card = manager.getCard(cardID);
+//                if (card == null) {
+//                    displayArea.setText("Card not found.");
+//                    JOptionPane.showMessageDialog(null, "Card not found!", "Error", JOptionPane.ERROR_MESSAGE);
+//                    return;
+//                }
+//
+//                String cardLevel = card.getAccessLevel();
+//                String cardStatus = "Card ID: " + cardID + " | Card Level: " + cardLevel + " | Username: " + username;
+//                String expiryDate = "N/A";
+//                String status = "Active";
+//
+//                if (card instanceof TimeBasedAccessCard) {
+//                    TimeBasedAccessCard tbc = (TimeBasedAccessCard) card;
+//                    expiryDate = String.valueOf(tbc.getEndTime()
+//                            .atZone(ZoneId.systemDefault())
+//                            .toInstant()
+//                            .toEpochMilli());
+//
+//                    if (tbc.isCardExpired()) {
+//                        status = "Expired";
+//                        displayArea.setText(cardStatus + "\nAccess Denied: Card Expired\nTime-Based Encryption | Expires On: " + expiryDate);
+//                        manager.logUsage(username, "Access Denied", cardID, "Expired Card");
+//                        JOptionPane.showMessageDialog(null, "Access Denied: Card Expired", "Error", JOptionPane.ERROR_MESSAGE);
+//                        return;
+//                    }
+//                    cardStatus += " | Expires On: " + expiryDate;
+//                }
+//
+//                try {
+//                    if (card.getClass().getMethod("isRevoked") != null && ((Boolean) card.getClass().getMethod("isRevoked").invoke(card))) {
+//                        status = "Revoked";
+//                        displayArea.setText(cardStatus + "\nAccess Denied: This card is Revoked.");
+//                        manager.logUsage(username, "Access Denied", cardID, "Revoked Card");
+//                        JOptionPane.showMessageDialog(null, "Access Denied: This card is Revoked", "Access Denied", JOptionPane.ERROR_MESSAGE);
+//                        return;
+//                    }
+//                } catch (Exception ex) {
+//                    // ถ้าไม่มี isRevoked() ให้ทำงานปกติ
+//                }
+//
+//                selectedRooms.add(cardUsageKey);
+//
+//                manager.setAuditTrail(new AuditTrails.RoomAudit());
+//                manager.recordUsage(cardID, username, selectedFloor + " - " + selectedRoom, cardLevel);
+//                manager.logUsage(username, "Access Granted", cardID, "Access to " + selectedFloor + " - " + selectedRoom);
+//
+//                JOptionPane.showMessageDialog(null, "Access to " + selectedFloor + " - " + selectedRoom + " granted.", "Access Granted", JOptionPane.INFORMATION_MESSAGE);
+//                displayArea.setText(manager.getFullCardStatus(cardID));
+//            }
+//        });
         useCardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String username = usernameField.getText().trim();
                 String cardID = (String) cardComboBox.getSelectedItem();
                 String selectedFloor = (String) floorComboBox.getSelectedItem();
+                String selectedRoom = (String) roomComboBox.getSelectedItem();
+                String roomKey = selectedFloor + " - " + selectedRoom; // ห้องที่เลือก
 
                 if (username.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Please enter a Username!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -300,9 +385,17 @@ public class CompoundSecurity extends JFrame {
                     return;
                 }
 
-                String cardFloorKey = cardID + "-" + selectedFloor;
-                if (selectedFloors.contains(cardFloorKey)) {
-                    JOptionPane.showMessageDialog(null, "This card has already been used on " + selectedFloor + "!", "Error", JOptionPane.ERROR_MESSAGE);
+                // ✅ ตรวจสอบว่าบัตรนี้เคยถูกใช้ไปแล้วหรือไม่
+                if (selectedRooms.containsKey(cardID)) {
+                    String previousRoom = selectedRooms.get(cardID);
+                    JOptionPane.showMessageDialog(null, "This card has already been used for " + previousRoom + "!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // ✅ ตรวจสอบว่าห้องนี้เคยถูกใช้โดยบัตรอื่นแล้วหรือไม่
+                if (roomUsage.containsKey(roomKey)) {
+                    String previousCard = roomUsage.get(roomKey);
+                    JOptionPane.showMessageDialog(null, "This room is already assigned to another card (Card: " + previousCard + ")!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -314,56 +407,22 @@ public class CompoundSecurity extends JFrame {
                 }
 
                 String cardLevel = card.getAccessLevel();
-                String cardStatus = "Card ID: " + cardID + " | Card Level: " + cardLevel + " | Username: " + username;
-                String expiryDate = "N/A";
-                String status = "Active";
 
-                if (card instanceof TimeBasedAccessCard) {
-                    TimeBasedAccessCard tbc = (TimeBasedAccessCard) card;
-                    expiryDate = String.valueOf(tbc.getEndTime()
-                            .atZone(ZoneId.systemDefault())
-                            .toInstant()
-                            .toEpochMilli());
+                // ✅ บันทึกว่าการ์ดนี้ใช้กับห้องไหนแล้ว
+                selectedRooms.put(cardID, roomKey);
+                roomUsage.put(roomKey, cardID); // ✅ บันทึกว่าห้องนี้ใช้บัตรไหนแล้ว
+                saveSelectedRooms(); // บันทึกข้อมูลลงไฟล์
 
-                    if (tbc.isCardExpired()) {
-                        status = "Expired";
-                        displayArea.setText(cardStatus + "\nAccess Denied: Card Expired\nTime-Based Encryption | Expires On: " + expiryDate);
-                        manager.logUsage(username, "Access Denied", cardID, "Expired Card");
-                        JOptionPane.showMessageDialog(null, "Access Denied: Card Expired", "Error", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                    cardStatus += " | Expires On: " + expiryDate;
-                }
+                // ✅ บันทึกลง Audit Log
+                manager.setAuditTrail(new AuditTrails.RoomAudit());
+                manager.recordUsage(cardID, username, roomKey, cardLevel);
+                manager.logUsage(username, "Access Granted", cardID, "Access to " + roomKey);
 
-                try {
-                    if (card.getClass().getMethod("isRevoked") != null && ((Boolean) card.getClass().getMethod("isRevoked").invoke(card))) {
-                        status = "Revoked";
-                        displayArea.setText(cardStatus + "\nAccess Denied: This card is Revoked.");
-                        manager.logUsage(username, "Access Denied", cardID, "Revoked Card");
-                        JOptionPane.showMessageDialog(null, "Access Denied: This card is Revoked", "Access Denied", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                } catch (Exception ex) {
-                    // ถ้าไม่มี isRevoked() ให้ทำงานปกติ
-                }
-
-                if (cardLevel.equalsIgnoreCase("Medium") || cardLevel.equalsIgnoreCase("High")) {
-                    displayArea.setText(cardStatus + "\nAccess Denied: This card cannot be used.");
-                    manager.logUsage(username, "Access Denied", cardID, "N/A");
-                    JOptionPane.showMessageDialog(null, "Access Denied: This card cannot be used.", "Access Denied", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                selectedFloors.add(cardFloorKey);
-                manager.setAuditTrail(new AuditTrails.FloorAudit());
-                manager.recordUsage(cardID, username, selectedFloor, cardLevel);
-                manager.logUsage(username, "Access Granted", cardID, "Access to " + selectedFloor);
-                JOptionPane.showMessageDialog(null, "Access to " + selectedFloor + " granted.", "Access Granted", JOptionPane.INFORMATION_MESSAGE);
-
-                String statusText = manager.getFullCardStatus(cardID);
-                displayArea.setText(statusText);
+                JOptionPane.showMessageDialog(null, "Access to " + roomKey + " granted.", "Access Granted", JOptionPane.INFORMATION_MESSAGE);
+                displayArea.setText(manager.getFullCardStatus(cardID));
             }
         });
+
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -377,12 +436,54 @@ public class CompoundSecurity extends JFrame {
         add(cardComboBox);
         add(floorLabel);
         add(floorComboBox);
+        add(roomLabel);
+        add(roomComboBox);
         add(useCardButton);
         add(backButton);
         add(scrollPane);
 
         revalidate();
         repaint();
+    }
+    private final String SELECTED_ROOMS_FILE = "selected_rooms.txt"; // ไฟล์เก็บข้อมูล
+
+    // ✅ ฟังก์ชันบันทึกข้อมูลลงไฟล์
+    private void saveSelectedRooms() {
+        try (FileWriter writer = new FileWriter(SELECTED_ROOMS_FILE)) {
+            for (Map.Entry<String, String> entry : selectedRooms.entrySet()) {
+                writer.write(entry.getKey() + "," + entry.getValue() + "\n");
+            }
+            writer.write("###\n"); // แยกส่วนข้อมูล
+            for (Map.Entry<String, String> entry : roomUsage.entrySet()) {
+                writer.write(entry.getKey() + "," + entry.getValue() + "\n");
+            }
+        } catch (IOException e) {
+            System.out.println("Error saving selected rooms: " + e.getMessage());
+        }
+    }
+
+    // ✅ ฟังก์ชันโหลดข้อมูลจากไฟล์กลับมาใช้
+    private void loadSelectedRooms() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(SELECTED_ROOMS_FILE))) {
+            String line;
+            boolean loadingRoomUsage = false;
+            while ((line = reader.readLine()) != null) {
+                if (line.equals("###")) {
+                    loadingRoomUsage = true;
+                    continue;
+                }
+                String[] data = line.split(",");
+                if (data.length == 2) {
+                    if (!loadingRoomUsage) {
+                        selectedRooms.put(data[0], data[1]);
+                    } else {
+                        roomUsage.put(data[0], data[1]);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("No previous room usage data found. Starting fresh.");
+        }
     }
 
     private void showRoleSelectionUI() {

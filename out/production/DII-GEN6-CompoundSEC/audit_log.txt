@@ -156,3 +156,26 @@
 2025-03-02 20:01:09 | User: h | Action: Access Granted | Card: A1001 | Floor: Access to Floor 3
 2025-03-02 20:03:25 | User: o | Action: Access Granted | Card: A1001 | Floor: Access to Floor 1
 2025-03-02 20:07:47 | User: Admin | Action: Added Card | Card: m01 | Detail: Guest
+2025-03-02 | User: p | Action: Access Granted | Card: a11 | Room: Access to Room 101
+2025-03-02 | User: l | Action: Access Denied | Card: C12 | Room: N/A
+2025-03-02 | User: l | Action: Access Granted | Card: A1001 | Room: Access to Room 101
+2025-03-02 | User: o | Action: Access Granted | Card: m01 | Room: Access to Room 101
+2025-03-02 | User: i | Action: Access Granted | Card: A1001 | Room: Access to Room 101
+2025-03-02 | User: p | Action: Access Granted | Card: A1001 | Location: Access to Floor 1 - Room 101
+2025-03-02 | User: o | Action: Access Granted | Card: m01 | Location: Access to Floor 1 - Room 101
+2025-03-02 | User: p | Action: Access Granted | Card: m01 | Location: Access to Floor 1 - Room 101
+2025-03-02 | User: p | Action: Access Granted | Card: m01 | Location: Access to Floor 1 - Room 101
+2025-03-02 | User: p | Action: Access Granted | Card: j1 | Location: Access to Floor 1 - Room 101
+2025-03-02 | User: pi | Action: Access Granted | Card: A1001 | Location: Access to Floor 1 - Room 101
+2025-03-02 | User: pi | Action: Access Granted | Card: A1001 | Location: Access to Floor 1 - Room 101
+2025-03-02 | User: u | Action: Access Granted | Card: m01 | Location: Access to Floor 1 - Room 101
+2025-03-02 | User: y | Action: Access Granted | Card: B222 | Location: Access to Floor 1 - Room 101
+2025-03-02 | User: o | Action: Access Granted | Card: a11 | Location: Access to Floor 1 - Room 101
+2025-03-02 | User: o | Action: Access Granted | Card: A1001 | Location: Access to Floor 1 - Room 101
+2025-03-02 | User: p | Action: Access Granted | Card: A1001 | Location: Access to Floor 1 - Room 101
+2025-03-02 | User: y | Action: Access Granted | Card: m01 | Location: Access to Floor 1 - Room 101
+2025-03-02 | User: p | Action: Access Granted | Card: a11 | Location: Access to Floor 1 - Room 101
+2025-03-02 | User: o | Action: Access Granted | Card: A1001 | Location: Access to Floor 1 - Room 101
+2025-03-02 | User: p | Action: Access Granted | Card: A1001 | Location: Access to Floor 1 - Room 101
+2025-03-02 | User: q | Action: Access Granted | Card: A1001 | Location: Access to Floor 1 - Room 101
+2025-03-02 | User: q | Action: Access Granted | Card: A1001 | Location: Access to Floor 1 - Room 101
