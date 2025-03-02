@@ -23,20 +23,19 @@ public class TimeBasedAccessCard extends AccessCard {
         return super.grantAccess(requiredLevel);
     }
 
-    // ✅ เพิ่ม Setter เพื่อให้สามารถแก้ไขเวลาได้
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
-
     public LocalDateTime getStartTime() {
         return startTime;
     }
 
     public LocalDateTime getEndTime() {
         return endTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 }

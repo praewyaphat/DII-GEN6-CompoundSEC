@@ -100,11 +100,7 @@ public class CompoundSecurity extends JFrame {
         String[] userTypes = {"Guest", "Staff", "Admin"};
         JComboBox<String> userTypeBox = new JComboBox<>(userTypes);
 
-        // ✅ เพิ่มช่องให้กรอก Start Time และ End Time
-        JLabel startTimeLabel = new JLabel("Start Time (YYYY-MM-DD HH:MM):");
-        JTextField startTimeField = new JTextField(16);
-
-        JLabel endTimeLabel = new JLabel("End Time (YYYY-MM-DD HH:MM):");
+        JLabel endTimeLabel = new JLabel("End Time (YYYY-MM-DD):");
         JTextField endTimeField = new JTextField(16);
 
         JButton addButton = new JButton("Add Card");
@@ -135,38 +131,33 @@ public class CompoundSecurity extends JFrame {
                 }
 
                 String userType = (String) userTypeBox.getSelectedItem();
-                AccessCard newCard = null;
+                AccessCard newCard;
 
                 try {
-                    // ✅ ตรวจสอบว่าผู้ใช้กรอกเวลาหรือไม่
-                    if (!startTimeField.getText().trim().isEmpty() && !endTimeField.getText().trim().isEmpty()) {
-                        LocalDateTime startTime = LocalDateTime.parse(startTimeField.getText().trim().replace(" ", "T"));
-                        LocalDateTime endTime = LocalDateTime.parse(endTimeField.getText().trim().replace(" ", "T"));
+                    LocalDateTime startTime = LocalDateTime.now(); // เริ่มต้นที่เวลาปัจจุบัน
+                    LocalDateTime endTime;
+
+                    // ถ้าผู้ใช้ไม่ได้กรอกวันหมดอายุ ให้ใช้ค่าเริ่มต้นเป็นวันนี้ 23:59
+                    if (endTimeField.getText().trim().isEmpty()) {
+                        endTime = startTime.withHour(23).withMinute(59);
+                    } else {
+                        // ถ้าผู้ใช้เลือกวันหมดอายุ ให้เติมเวลาเป็น 23:59
+                        endTime = LocalDateTime.parse(endTimeField.getText().trim() + "T23:59");
 
                         if (endTime.isBefore(startTime)) {
-                            JOptionPane.showMessageDialog(null, "End Time must be after Start Time!", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "End Date must be after Start Date!", "Error", JOptionPane.ERROR_MESSAGE);
                             return;
-                        }
-
-                        newCard = new TimeBasedAccessCard(cardID, userType, startTime, endTime);
-                    } else {
-                        // ✅ ถ้าไม่ได้กำหนดเวลา ใช้บัตรปกติ
-                        if (userType.equalsIgnoreCase("Guest")) {
-                            newCard = new GuestCard(cardID);
-                        } else if (userType.equalsIgnoreCase("Staff")) {
-                            newCard = new StaffCard(cardID);
-                        } else if (userType.equalsIgnoreCase("Admin")) {
-                            newCard = new AdminCard(cardID);
                         }
                     }
 
+                    newCard = new TimeBasedAccessCard(cardID, userType, startTime, endTime);
                     manager.addCard(newCard);
                     JOptionPane.showMessageDialog(null, "Card Added Successfully!");
                     cardIDField.setText("");
-                    startTimeField.setText("");
                     endTimeField.setText("");
+
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Invalid Date Format! Use YYYY-MM-DD HH:MM", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Invalid Date Format! Use YYYY-MM-DD", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -188,7 +179,7 @@ public class CompoundSecurity extends JFrame {
                 }
 
                 try {
-                    LocalDateTime newStartTime = LocalDateTime.parse(startTimeField.getText().trim().replace(" ", "T"));
+                    LocalDateTime newStartTime = LocalDateTime.now();
                     LocalDateTime newEndTime = LocalDateTime.parse(endTimeField.getText().trim().replace(" ", "T"));
 
                     if (newEndTime.isBefore(newStartTime)) {
@@ -240,8 +231,6 @@ public class CompoundSecurity extends JFrame {
         add(cardIDField);
         add(userTypeLabel);
         add(userTypeBox);
-        add(startTimeLabel);
-        add(startTimeField);
         add(endTimeLabel);
         add(endTimeField);
         add(addButton);
@@ -290,7 +279,7 @@ public class CompoundSecurity extends JFrame {
         useCardButton.setPreferredSize(buttonSize);
         backButton.setPreferredSize(buttonSize);
 
-        displayArea = new JTextArea(30, 55);
+        displayArea = new JTextArea(30, 70);
         displayArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(displayArea);
 

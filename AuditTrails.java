@@ -4,7 +4,7 @@ public class AuditTrails {
     public static abstract class AuditTrail {
         protected final String AUDIT_FILE = "audit_log.txt";
         protected java.time.format.DateTimeFormatter formatter =
-                java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         // Abstract method สำหรับบันทึก Audit Trail
         public abstract void log(String username, String action, String cardID, String detail);
