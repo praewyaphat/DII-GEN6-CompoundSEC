@@ -272,23 +272,23 @@ public class CompoundSecurity extends JFrame {
                 String cardID = (String) cardComboBox.getSelectedItem();
                 String selectedFloor = (String) floorComboBox.getSelectedItem();
 
-                if (username.isEmpty()) {
+                if(username.isEmpty()){
                     JOptionPane.showMessageDialog(null, "Please enter a Username!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                if (cardID == null) {
+                if(cardID == null){
                     JOptionPane.showMessageDialog(null, "Please select a Card!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 String cardFloorKey = cardID + "-" + selectedFloor;
-                if (usedFloors.contains(cardFloorKey)) {
+                if(usedFloors.contains(cardFloorKey)){
                     JOptionPane.showMessageDialog(null, "This card has already been used on " + selectedFloor + "!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 AccessCard card = manager.getCard(cardID);
-                if (card == null) {
+                if(card == null){
                     displayArea.setText("Card not found.");
                     JOptionPane.showMessageDialog(null, "Card not found!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -297,7 +297,8 @@ public class CompoundSecurity extends JFrame {
                 String cardLevel = card.getAccessLevel();
                 String cardStatus = "Card ID: " + cardID + " | Card Level: " + cardLevel + " | Username: " + username;
 
-                if (cardLevel.equalsIgnoreCase("Medium") || cardLevel.equalsIgnoreCase("High")) {
+                // ในหน้า customer ห้ามใช้บัตรที่เป็น Medium หรือ High
+                if(cardLevel.equalsIgnoreCase("Medium") || cardLevel.equalsIgnoreCase("High")){
                     displayArea.setText(cardStatus + "\nAccess Denied: This card cannot be used.");
                     manager.logUsage(username, "Access Denied", cardID, "N/A");
                     JOptionPane.showMessageDialog(null, "Access Denied: This card cannot be used.", "Access Denied", JOptionPane.ERROR_MESSAGE);
@@ -305,6 +306,8 @@ public class CompoundSecurity extends JFrame {
                 }
 
                 usedFloors.add(cardFloorKey);
+                // ตั้ง AuditTrail ให้เป็น FloorAudit (สำหรับบันทึกระดับชั้น)
+                manager.setAuditTrail(new AuditTrails.FloorAudit());
                 manager.recordUsage(cardID, username, selectedFloor, cardLevel);
                 manager.logUsage(username, "Access Granted", cardID, "Access to " + selectedFloor);
                 JOptionPane.showMessageDialog(null, "Access to " + selectedFloor + " granted.", "Access Granted", JOptionPane.INFORMATION_MESSAGE);
@@ -313,8 +316,6 @@ public class CompoundSecurity extends JFrame {
                 displayArea.setText(status);
             }
         });
-
-
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

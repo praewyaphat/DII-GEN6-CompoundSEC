@@ -12,9 +12,14 @@ public class CardManager {
     private final String AUDIT_FILE = "audit_log.txt";
     private Map<String, String> usageDetails = new HashMap<>();
     private Map<String, List<String>> usageHistory = new HashMap<>();
+    private AuditTrails.AuditTrail auditTrail;
 
     public CardManager() {
         loadFromFile();
+    }
+
+    public void setAuditTrail(AuditTrails.AuditTrail auditTrail) {
+        this.auditTrail = auditTrail;
     }
 
     public void addCard(AccessCard card) {
@@ -170,13 +175,6 @@ public class CardManager {
         return lowAccessCardIDs.toArray(new String[0]);
     }
 
-    public void recordUsage(String cardID, String username, String selectedFloor, String cardLevel) {
-        String record = "Card ID: " + cardID + "-" + selectedFloor + " | Card Level: " + cardLevel + " | Username: " + username;
-        List<String> records = usageHistory.getOrDefault(cardID, new ArrayList<>());
-        records.add(record);
-        usageHistory.put(cardID, records);
-    }
-
     public String getCardStatus() {
         StringBuilder sb = new StringBuilder();
         sb.append("Card Status:\n");
@@ -223,6 +221,13 @@ public class CardManager {
             sb.append("No access history.\n");
         }
         return sb.toString();
+    }
+
+    public void recordUsage(String cardID, String username, String selectedFloor, String cardLevel) {
+        String record = "Card ID: " + cardID + "-" + selectedFloor + " | Card Level: " + cardLevel + " | Username: " + username;
+        List<String> records = usageHistory.getOrDefault(cardID, new ArrayList<>());
+        records.add(record);
+        usageHistory.put(cardID, records);
     }
 
     public String getFullCardStatus(String selectedCardID) {

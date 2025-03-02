@@ -120,3 +120,6 @@
 2025-03-02 06:30:40 | User: Admin | Action: Revoked Card | Card: C11 | Level: High
 2025-03-02 06:32:46 | User: p | Action: Access Granted | Card: a11 | Level: Access to Floor 1
 2025-03-02 06:32:58 | User: m | Action: Access Granted | Card: a22 | Level: Access to Floor 1
+2025-03-02 07:11:22 | User: Admin | Action: Added Card | Card: j1 | Level: Low
+2025-03-02 07:11:35 | User: l | Action: Access Granted | Card: a11 | Level: Access to Floor 1
+2025-03-02 07:11:44 | User: a | Action: Access Granted | Card: a22 | Level: Access to Floor 1
