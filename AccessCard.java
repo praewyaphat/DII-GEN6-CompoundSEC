@@ -1,7 +1,10 @@
+import java.time.LocalDateTime;
+
 public class AccessCard {
     protected String cardID;
     protected String accessLevel;
     private boolean used;
+    private boolean revoked = false;
 
     public AccessCard(String cardID, String accessLevel) {
         this.cardID = cardID;
@@ -19,6 +22,14 @@ public class AccessCard {
 
     public void setUsed(boolean used) {
         this.used = used;
+    }
+
+    public boolean isRevoked() {
+        return revoked;
+    }
+
+    public void revokeCard() {
+        this.revoked = true;
     }
 
     public String getAccessLevel() {

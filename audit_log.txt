@@ -132,3 +132,22 @@
 2025-03-02 07:43:53 | User: p; | Action: Access Granted | Card: a11 | Floor: Access to Floor 1
 2025-03-02 07:44:01 | User: l | Action: Access Denied | Card: B11 | Floor: N/A
 2025-03-02 07:44:10 | User: y | Action: Access Denied | Card: C01 | Floor: N/A
+2025-03-02 08:27:33 | User: Admin | Action: Added Card | Card: A111 | Detail: Guest
+2025-03-02 08:27:57 | User: p | Action: Access Granted | Card: a11 | Floor: Access to Floor 1
+2025-03-02 08:28:10 | User: t | Action: Access Granted | Card: A111 | Floor: Access to Floor 1
+2025-03-02 08:37:32 | User: p | Action: Access Granted | Card: A111 | Floor: Access to Floor 1
+2025-03-02 08:40:35 | User: p | Action: Access Denied | Card: A111 | Detail: Expired Card
+2025-03-02 08:40:38 | User: p | Action: Access Denied | Card: A111 | Detail: Expired Card
+2025-03-02 08:40:50 | User: t | Action: Access Denied | Card: A111 | Detail: Expired Card
+2025-03-02 08:41:59 | User: Admin | Action: Added Card | Card: B222 | Detail: Guest
+2025-03-02 08:42:10 | User: o | Action: Access Granted | Card: B222 | Floor: Access to Floor 1
+2025-03-02 08:42:25 | User: o | Action: Access Denied | Card: A111 | Floor: Expired Card
+2025-03-02 08:43:36 | User: i | Action: Access Granted | Card: B222 | Floor: Access to Floor 2
+2025-03-02 08:45:12 | User: r | Action: Access Granted | Card: B222 | Floor: Access to Floor 1
+2025-03-02 09:02:11 | User: p | Action: Access Granted | Card: B222 | Floor: Access to Floor 1
+2025-03-02 09:02:25 | User: o | Action: Access Denied | Card: A111 | Floor: Expired Card
+2025-03-02 09:12:55 | User: p | Action: Access Denied | Card: A111 | Detail: Expired Card
+2025-03-02 09:13:06 | User: o | Action: Access Granted | Card: B222 | Floor: Access to Floor 1
+2025-03-02 09:22:32 | User: p | Action: Access Granted | Card: B222 | Floor: Access to Floor 1
+2025-03-02 09:22:48 | User: o | Action: Access Denied | Card: A111 | Floor: Expired Card
+2025-03-02 09:22:58 | User: y | Action: Access Granted | Card: B222 | Floor: Access to Floor 2

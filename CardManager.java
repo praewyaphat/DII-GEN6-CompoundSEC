@@ -1,5 +1,7 @@
+import javax.swing.*;
 import java.io.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -20,10 +22,6 @@ public class CardManager {
     }
 
     public void addCard(AccessCard card) {
-        if (card.getCardID().equals("CARD004")) {
-            System.out.println("Skipping Card 4");
-            return;
-        }
         cards.add(card);
         saveToFile();
         logUsage("Admin", "Added Card", card.getCardID(), card.getAccessLevel());
@@ -67,16 +65,23 @@ public class CardManager {
         return cardIDs.toArray(new String[0]);
     }
 
-    // เพิ่มเมธอด getAllCards() เพื่อแสดงรายชื่อบัตรทั้งหมด
     public String getAllCards() {
         StringBuilder result = new StringBuilder();
         result.append("Registered Cards:\n");
         for (AccessCard card : cards) {
-            result.append("Card ID: ").append(card.getCardID())
-                    .append(" | Level: ").append(card.getAccessLevel()).append("\n");
+            if (card instanceof TimeBasedAccessCard) {
+                TimeBasedAccessCard tbc = (TimeBasedAccessCard) card;
+                result.append("Card ID: ").append(card.getCardID())
+                        .append(" | Level: ").append(card.getAccessLevel())
+                        .append(" | Expires On: ").append(tbc.getEndTime())
+                        .append(tbc.isCardExpired() ? " | Status: Expired\n" : " | Status: Active\n");
+            } else {
+                result.append(card.getCardID()).append(" | Level: ").append(card.getAccessLevel()).append("\n");
+            }
         }
         return result.toString();
     }
+
 
     public void logUsage(String username, String action, String cardID, String detail) {
         if (auditTrail != null) {
@@ -86,7 +91,6 @@ public class CardManager {
             String timestamp = LocalDateTime.now().format(formatter);
             String logEntry = String.format("%s | User: %s | Action: %s | Card: %s | Detail: %s%n",
                     timestamp, username, action, cardID, detail);
-            System.out.println(logEntry);
             try (FileWriter writer = new FileWriter(AUDIT_FILE, true)) {
                 writer.write(logEntry);
             } catch (IOException e) {
@@ -98,7 +102,13 @@ public class CardManager {
     public void saveToFile() {
         try (FileWriter writer = new FileWriter(FILE_NAME)) {
             for (AccessCard card : cards) {
-                writer.write(card.getCardID() + "," + card.getAccessLevel() + "\n");
+                if (card instanceof TimeBasedAccessCard) {
+                    TimeBasedAccessCard tbc = (TimeBasedAccessCard) card;
+                    writer.write(card.getCardID() + "," + card.getAccessLevel() + "," +
+                            tbc.getStartTime() + "," + tbc.getEndTime() + "\n");
+                } else {
+                    writer.write(card.getCardID() + "," + card.getAccessLevel() + "\n");
+                }
             }
         } catch (IOException e) {
             System.out.println("Error saving data: " + e.getMessage());
@@ -111,27 +121,15 @@ public class CardManager {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(",");
-                if (data.length < 2) continue; // ป้องกันข้อมูลผิดพลาด
                 String cardID = data[0];
                 String level = data[1];
-                if (cardID.equals("CARD004")) {
-                    System.out.println("Skipping Card 4 from file.");
-                    continue;
-                }
-                AccessCard card = null;
-                switch (level) {
-                    case "Low":
-                        card = new GuestCard(cardID);
-                        break;
-                    case "Medium":
-                        card = new StaffCard(cardID);
-                        break;
-                    case "High":
-                        card = new AdminCard(cardID);
-                        break;
-                }
-                if (card != null) {
-                    cards.add(card);
+
+                if (data.length == 4) {  // เป็นบัตรแบบ Time-Based
+                    LocalDateTime startTime = LocalDateTime.parse(data[2]);
+                    LocalDateTime endTime = LocalDateTime.parse(data[3]);
+                    cards.add(new TimeBasedAccessCard(cardID, level, startTime, endTime));
+                } else {
+                    cards.add(new AccessCard(cardID, level));
                 }
             }
             System.out.println("Loaded data from file.");
@@ -154,7 +152,8 @@ public class CardManager {
         if (card == null) {
             return "Card not found.";
         }
-        // สำหรับ Card Information ให้ดึงข้อมูลของบัตรที่เลือก
+
+        // ✅ สำหรับ Card Information ให้ดึงข้อมูลของบัตรที่เลือก
         String currentUsername = "Not used";
         List<String> recordsForCard = usageHistory.get(selectedCardID);
         if (recordsForCard != null && !recordsForCard.isEmpty()) {
@@ -164,19 +163,73 @@ public class CardManager {
                 currentUsername = parts[1].trim();
             }
         }
+
         sb.append("Card Information:\n");
         sb.append("Card ID: ").append(card.getCardID())
                 .append(" | Card Level: ").append(card.getAccessLevel())
-                .append(" | Username: ").append(currentUsername)
-                .append("\n\n");
-        // สำหรับ Access History ให้แสดงประวัติของระบบทั้งหมด
-        sb.append("Access History:\n");
+                .append(" | Username: ").append(currentUsername);
+
+        // ✅ ถ้าเป็น Time-Based Access Card ให้เพิ่ม Expiry Date
+        if (card instanceof TimeBasedAccessCard) {
+            TimeBasedAccessCard tbc = (TimeBasedAccessCard) card;
+            sb.append(" | Time-Based Encryption | Expires On: ")
+                    .append(tbc.getEndTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+        }
+
+        sb.append("\n\nAccess History:\n");
+
+        // ✅ สำหรับ Access History ให้แสดงประวัติของระบบทั้งหมด
         for (Map.Entry<String, List<String>> entry : usageHistory.entrySet()) {
             for (String rec : entry.getValue()) {
-                sb.append(rec).append("\n");
+                sb.append(rec);
+                if (card instanceof TimeBasedAccessCard) {
+                    TimeBasedAccessCard tbc = (TimeBasedAccessCard) card;
+                    sb.append(" | Time-Based Encryption | Expires On: ")
+                            .append(tbc.getEndTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+                }
+                sb.append("\n");
             }
         }
+
         return sb.toString();
     }
+
+
+    public String getCardStatus(String cardID) {
+        AccessCard card = getCard(cardID);
+        if (card == null) {
+            return "Card not found.";
+        }
+        if (card instanceof TimeBasedAccessCard) {
+            TimeBasedAccessCard tbc = (TimeBasedAccessCard) card;
+            return "Card ID: " + cardID + " | Level: " + card.getAccessLevel() +
+                    " | Expires On: " + tbc.getEndTime() +
+                    (tbc.isCardExpired() ? " | Status: Expired" : " | Status: Active");
+        }
+        return "Card ID: " + cardID + " | Level: " + card.getAccessLevel() + " | Status: Active";
+    }
+
+
+    public void modifyCardWithTime(String cardID, String newLevel, LocalDateTime newStartTime, LocalDateTime newEndTime) {
+        for (AccessCard card : cards) {
+            if (card.getCardID().equals(cardID)) {
+                if (card instanceof TimeBasedAccessCard) {
+                    TimeBasedAccessCard tbc = (TimeBasedAccessCard) card;
+                    tbc.setAccessLevel(newLevel);
+                    tbc.setStartTime(newStartTime);
+                    tbc.setEndTime(newEndTime);
+                    saveToFile();
+                    logUsage("Admin", "Modified Card Time", cardID, "New Time: " + newStartTime + " - " + newEndTime);
+                    return;
+                } else {
+                    JOptionPane.showMessageDialog(null, "This card does not support time-based access!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Card not found!", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+
 }
 
