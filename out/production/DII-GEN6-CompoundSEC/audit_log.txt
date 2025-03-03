@@ -1,0 +1,29 @@
+2025-03-03 00:25:19 | User: Admin | Action: Added Card | Card: A100 | Detail: Guest
+2025-03-03 00:25:25 | User: Admin | Action: Added Card | Card: A101 | Detail: Guest
+2025-03-03 00:25:33 | User: Admin | Action: Added Card | Card: A102 | Detail: Guest
+2025-03-03 00:25:39 | User: Admin | Action: Added Card | Card: S100 | Detail: Guest
+2025-03-03 00:25:44 | User: Admin | Action: Added Card | Card: S101 | Detail: Guest
+2025-03-03 00:25:51 | User: Admin | Action: Added Card | Card: V100 | Detail: Admin
+2025-03-03 00:26:07 | User: praew | Action: Access Granted | Card: S101 | Detail: Access to Floor 1 - Room 101
+2025-03-03 | User: praew | Action: Access Granted | Card: S101 | Location: Access to Floor 1 - Room 101
+2025-03-03 | User: praew | Action: Access Granted | Card: A101 | Location: Access to Floor 2 - Room 101
+2025-03-03 | User: praew | Action: Access Granted | Card: A101 | Location: Access to Floor 2 - Room 101
+2025-03-03 | User: Admin | Action: Revoked Card | Card: A100 | Location: Guest
+2025-03-03 | User: Admin | Action: Revoked Card | Card: A101 | Location: Guest
+2025-03-03 | User: Admin | Action: Revoked Card | Card: A102 | Location: Guest
+2025-03-03 | User: Admin | Action: Revoked Card | Card: S100 | Location: Guest
+2025-03-03 | User: Admin | Action: Revoked Card | Card: S101 | Location: Guest
+2025-03-03 | User: Admin | Action: Revoked Card | Card: V100 | Location: Admin
+2025-03-03 | User: Admin | Action: Revoked Card | Card: A100 | Location: Guest
+2025-03-03 | User: Admin | Action: Revoked Card | Card: A101 | Location: Guest
+2025-03-03 | User: Admin | Action: Revoked Card | Card: A102 | Location: Guest
+2025-03-03 | User: Admin | Action: Revoked Card | Card: S101 | Location: Guest
+2025-03-03 | User: Admin | Action: Revoked Card | Card: V100 | Location: Admin
+2025-03-03 | User: Admin | Action: Added Card | Card: S100 | Location: Staff
+2025-03-03 | User: Admin | Action: Added Card | Card: S101 | Location: Staff
+2025-03-03 07:53:16 | User: Admin | Action: Added Card | Card: A103 | Detail: Guest
+2025-03-03 07:54:12 | User: praew | Action: Access Granted | Card: A103 | Detail: Access to Floor 1 - Room 302
+2025-03-03 | User: praew | Action: Access Granted | Card: A103 | Location: Access to Floor 1 - Room 302
+2025-03-03 08:02:33 | User: Admin | Action: Added Card | Card: V103 | Detail: Admin
+2025-03-03 08:03:05 | User: king | Action: Access Granted | Card: A102 | Detail: Access to Floor 2 - Room 102
+2025-03-03 | User: king | Action: Access Granted | Card: A102 | Location: Access to Floor 2 - Room 102

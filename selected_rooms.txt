@@ -1,5 +1,1 @@
-S101,Floor 1 - Room 101
-A101,Floor 2 - Room 101
-###
-Floor 2 - Room 101,A101
-Floor 1 - Room 101,S101
+

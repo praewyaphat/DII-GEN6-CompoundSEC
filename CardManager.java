@@ -163,7 +163,7 @@ public class CardManager {
             return "Card not found.";
         }
 
-        // ✅ สำหรับ Card Information ให้ดึงข้อมูลของบัตรที่เลือก
+        // สำหรับ Card Information ให้ดึงข้อมูลของบัตรที่เลือก
         String currentUsername = "Not used";
         String currentFloorRoom = "Not assigned";
         List<String> recordsForCard = usageHistory.get(selectedCardID);
@@ -181,7 +181,7 @@ public class CardManager {
                 .append(" | Card Level: ").append(card.getAccessLevel())
                 .append(" | Username: ").append(currentUsername);
 
-        // ✅ ถ้าเป็น Time-Based Access Card ให้เพิ่ม Expiry Date
+        // ถ้าเป็น Time-Based Access Card ให้เพิ่ม Expiry Date
         if (card instanceof TimeBasedAccessCard) {
             TimeBasedAccessCard tbc = (TimeBasedAccessCard) card;
             sb.append(" | Expires On: ")
@@ -190,7 +190,7 @@ public class CardManager {
 
         sb.append("\n\nAccess History:\n");
 
-        // ✅ สำหรับ Access History ให้แสดงประวัติของระบบทั้งหมด
+        // สำหรับ Access History ให้แสดงประวัติของระบบทั้งหมด
         for (Map.Entry<String, List<String>> entry : usageHistory.entrySet()) {
             for (String rec : entry.getValue()) {
                 sb.append(rec);

@@ -1,0 +1,9 @@
+S101,Floor 1 - Room 101
+A102,Floor 2 - Room 102
+A103,Floor 1 - Room 302
+A101,Floor 2 - Room 101
+###
+Floor 2 - Room 102,A102
+Floor 2 - Room 101,A101
+Floor 1 - Room 302,A103
+Floor 1 - Room 101,S101

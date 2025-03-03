@@ -14,15 +14,6 @@ public class TimeBasedAccessCard extends AccessCard {
         return LocalDateTime.now().isAfter(endTime);
     }
 
-//    @Override
-//    public boolean grantAccess(String requiredLevel) {
-//        if (isCardExpired()) {
-//            System.out.println("Access Denied: Card " + getCardID() + " is expired.");
-//            return false;
-//        }
-//        return super.grantAccess(requiredLevel);
-//    }
-
     public LocalDateTime getStartTime() {
         return startTime;
     }
@@ -39,3 +30,11 @@ public class TimeBasedAccessCard extends AccessCard {
         this.endTime = endTime;
     }
 }
+//    @Override
+//    public boolean grantAccess(String requiredLevel) {
+//        if (isCardExpired()) {
+//            System.out.println("Access Denied: Card " + getCardID() + " is expired.");
+//            return false;
+//        }
+//        return super.grantAccess(requiredLevel);
+//    }

@@ -1,6 +1,6 @@
 import java.time.LocalDateTime;
 
-public class AccessCard {
+public class AccessCard implements AccessControl{
     protected String cardID;
     protected String accessLevel;
     private boolean used;
@@ -44,6 +44,7 @@ public class AccessCard {
         return this.accessLevel;
     }
 
+    @Override
     public boolean grantAccess(String requiredLevel) {
         if (used) {
             return false;
